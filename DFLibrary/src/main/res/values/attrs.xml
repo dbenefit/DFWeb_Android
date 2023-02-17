@@ -1,0 +1,46 @@
+<resources>
+    <declare-styleable name="DFViewfinderView">
+        <attr name="df_maskColor" format="color" />
+        <attr name="df_frameColor" format="color" />
+        <attr name="df_cornerColor" format="color"/>
+        <attr name="df_laserColor" format="color"/>
+        <attr name="df_labelText" format="string"/>
+        <attr name="df_labelTextColor" format="color"/>
+        <attr name="df_labelTextSize" format="dimension"/>
+        <attr name="df_labelTextPadding" format="dimension"/>
+        <attr name="df_labelTextWidth" format="dimension"/>
+        <attr name="df_labelTextLocation" format="enum">
+            <enum name="top" value="0"/>
+            <enum name="bottom" value="1"/>
+        </attr>
+        <attr name="df_frameWidth" format="dimension"/>
+        <attr name="df_frameHeight" format="dimension"/>
+        <attr name="df_gridColumn" format="integer"/>
+        <attr name="df_gridHeight" format="dimension"/>
+        <attr name="df_laserStyle" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="line" value="1"/>
+            <enum name="grid" value="2"/>
+        </attr>
+        <attr name="df_cornerRectWidth" format="dimension"/>
+        <attr name="df_cornerRectHeight" format="dimension"/>
+        <attr name="df_scannerLineMoveDistance" format="dimension"/>
+        <attr name="df_scannerLineHeight" format="dimension"/>
+        <attr name="df_frameLineWidth" format="dimension"/>
+        <attr name="df_scannerAnimationDelay" format="integer"/>
+        <attr name="df_frameRatio" format="float"/>
+        <attr name="df_framePaddingLeft" format="dimension"/>
+        <attr name="df_framePaddingTop" format="dimension"/>
+        <attr name="df_framePaddingRight" format="dimension"/>
+        <attr name="df_framePaddingBottom" format="dimension"/>
+        <attr name="df_frameGravity" format="enum">
+            <enum name="center" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="top" value="2"/>
+            <enum name="right" value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+    </declare-styleable>
+
+
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.dflibrary">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application android:usesCleartextTraffic="true">
+        <activity
+            android:name="com.dffl.dflibrary.location.LocationActivity"
+            android:theme="@style/AppTheme.TranslucentTheme"
+            android:exported="false" />
+        <activity
+            android:name="com.dffl.dflibrary.webivew.DFWebviewActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.dffl.dflibrary.scan.DFCaptureActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

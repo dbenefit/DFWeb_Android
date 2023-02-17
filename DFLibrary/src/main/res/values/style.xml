@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
+    </style>
+
+
+    <!-- 目标 Activity 透明样式 -->
+    <style name="AppTheme.TranslucentTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">#00000000</item>
+    </style>
+
+    <style name="CaptureTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@color/dfzxl_capture_status_bar_color</item>
+        <item name="android:navigationBarColor">@color/dfzxl_capture_navigation_bar_color</item>
+    </style>
+</resources>

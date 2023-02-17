@@ -1,0 +1,79 @@
+//App 
+def app_version = [:]
+app_version.versionCode = 34
+app_version.versionName = "2.2.1"
+ext.app_version = app_version
+
+//build version
+def build_versions = [:]
+build_versions.minSdk = 21
+build_versions.targetSdk = 31
+build_versions.compileSdk = 31
+build_versions.buildTools = "31.0.0"
+ext.build_versions = build_versions
+
+ext.deps = [:]
+
+// App dependencies
+def versions = [:]
+//AndroidX
+versions.material = "1.2.0"
+versions.appcompat = "1.1.0"
+versions.constraintLayout = "2.0.4"
+
+//test
+versions.junit = "1.1.0"
+versions.test = "1.2.0"
+versions.runner = "1.2.0"
+versions.espresso = "3.2.0"
+
+versions.bintray_release = "0.9.2"
+versions.mavenPublish = '0.18.0'
+versions.gralde = "7.1.1"
+versions.kotlin = "1.6.0"
+versions.coreKtx = "1.6.0"
+
+//zxing
+versions.zxing = "3.3.3"
+
+versions.camerax = "1.1.0-rc02"
+
+versions.easypermissions = "3.0.0"
+
+ext.versions = versions
+
+//androidx
+def androidx = [:]
+androidx.design = "com.google.android.material:material:$versions.material"
+androidx.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
+androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+deps.androidx = androidx
+
+//test
+def test = [:]
+test.junit = "androidx.test.ext:junit:$versions.junit"
+test.test = "androidx.test:core:$versions.test"
+test.runner = "androidx.test:runner:$versions.runner"
+test.espresso = "androidx.test.espresso:espresso-core:$versions.espresso"
+deps.test = test
+
+
+//deps.kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+//
+//deps.corektx = "androidx.core:core-ktx:$versions.coreKtx"
+
+//zxing
+deps.zxing = "com.google.zxing:core:$versions.zxing"
+
+//CameraX
+deps.camera_core = "androidx.camera:camera-core:$versions.camerax"
+deps.camera_camera2 = "androidx.camera:camera-camera2:$versions.camerax"
+deps.camera_lifecycle = "androidx.camera:camera-lifecycle:$versions.camerax"
+deps.camera_view = "androidx.camera:camera-view:$versions.camerax"
+
+
+//permission
+deps.easypermissions = "pub.devrel:easypermissions:$versions.easypermissions"
+
+ext.deps = deps
+

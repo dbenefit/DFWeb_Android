@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="colorPrimary">#3F51B5</color>
+        <color name="colorPrimaryDark">#303F9F</color>
+        <color name="colorAccent">#FF4081</color>
+        <!--透明-->
+        <color name="transparent">#00000000</color>
+        <!--半透明-->
+        <color name="translucent">#22050505</color>
+
+        <color name="dfviewfinder_mask">#60000000</color>
+        <color name="dfviewfinder_frame">#7F1FB3E2</color>
+        <color name="dfviewfinder_corner">#FF1FB3E2</color>
+        <color name="dfviewfinder_laser">#FF1FB3E2</color>
+        <color name="dfviewfinder_text_color">#FFC0C0C0</color>
+
+        <color name="dfzxl_capture_status_bar_color">#00000000</color>
+        <color name="dfzxl_capture_navigation_bar_color">#00000000</color>
+
+</resources>
