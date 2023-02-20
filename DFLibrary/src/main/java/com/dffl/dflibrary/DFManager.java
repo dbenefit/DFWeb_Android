@@ -12,6 +12,7 @@ import com.dffl.dflibrary.location.LocationCallback;
 import com.dffl.dflibrary.scan.CaptureStartup;
 import com.dffl.dflibrary.scan.callback.ResultCallBack;
 import com.dffl.dflibrary.webivew.DFWebviewActivity;
+import com.dffl.dflibrary.webivew.plugin.SelfImplPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,5 +101,8 @@ public class DFManager {
 
     public void startScan(AppCompatActivity appCompatActivity, ResultCallBack resultCallBack) {
         new CaptureStartup().from(appCompatActivity).setType(0).create().forResult(resultCallBack);
+    }
+    public void setLocationPlugin(SelfImplPlugin locationPlugin){
+
     }
 }

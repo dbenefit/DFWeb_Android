@@ -95,7 +95,6 @@ public class LocationManagerUtil {
         endlistenerFlag = false;
 
         if (null == locationManager) {
-            Log.d(TAG, "locationManager=null return");
             return;
         }
 
@@ -103,24 +102,20 @@ public class LocationManagerUtil {
         boolean networkState = isConnected();
 
         if (!networkState) {
-            Log.d(TAG, "无网络 return");
             return;
         }
 
         //检查权限
         boolean permission = checkPermission();
         if (!permission) {
-            Log.d(TAG, "定位权限未开启 return");
             return;
         }
 
         String provider = LocationManager.NETWORK_PROVIDER;
-        Log.d(TAG, "provider:" + provider);
 
         //判断provider是否可用
         boolean providerEnabled = locationManager.isProviderEnabled(provider);
         if (!providerEnabled) {
-            Log.d(TAG, provider + " 不可用 return");
             return;
         }
 
@@ -128,17 +123,12 @@ public class LocationManagerUtil {
         Location location = locationManager.getLastKnownLocation(provider);
         if (null != location) {
             String locationAddr = getLocationAddr(location.getLongitude(), location.getLatitude());
-            Log.d(TAG, "缓存中的位置信息location:" + location.toString());
-            Log.d(TAG, "缓存中的位置信息locationAddr:" + locationAddr);
-            //清除定位信息
             location.reset();
         }
 
 //        getWifi();
-//
 //        getTelephonyManager();
-
-        //        Criteria crite = new Criteria();
+//        Criteria crite = new Criteria();
 //        crite.setAccuracy(Criteria.ACCURACY_FINE); //精度
 //        crite.setPowerRequirement(Criteria.POWER_LOW); //功耗类型选择
 //        String provider = locationManager.getBestProvider(crite, true);
@@ -312,17 +302,6 @@ public class LocationManagerUtil {
             String locationAddr = getLocationAddr(longitude, latitude);
             //获取高德经纬度地址
             String locationAddrGd = getLocationAddr(longitudeGd, latitudeGd);
-
-            Log.d(TAG, "时间：" + time);
-            Log.d(TAG, "经度：" + longitude);
-            Log.d(TAG, "纬度：" + latitude);
-            Log.d(TAG, "海拔：" + altitude);
-            Log.d(TAG, "位置：" + locationAddr);
-            Log.d(TAG, "高德经度：" + longitudeGd);
-            Log.d(TAG, "高德纬度：" + latitudeGd);
-            Log.d(TAG, "高德位置：" + locationAddrGd);
-
-
             if (TextUtils.isEmpty(locationAddr)) {
                 //失败回调
                 GPSResponseBean gpsResponseBean = new GPSResponseBean();
@@ -338,7 +317,6 @@ public class LocationManagerUtil {
                 gpsResponseBean.setLatitude(latitude);
                 gpsResponseBean.setAddress(locationAddr);
                 for (int i = 0; i < listeners.size(); i++) {
-                    Log.d(TAG, "onLocationChanged: "+i);
                     listeners.get(i).onSuccessLocationListener(gpsResponseBean);
                 }            }
         }
@@ -352,15 +330,12 @@ public class LocationManagerUtil {
             switch (status) {
                 //GPS状态为可见时
                 case LocationProvider.AVAILABLE:
-                    Log.d(TAG, "当前GPS状态为可见状态 provider可用");
                     break;
                 //GPS状态为服务区外时
                 case LocationProvider.OUT_OF_SERVICE:
-                    Log.d(TAG, "当前GPS状态为服务区外状态 无服务");
                     break;
                 //GPS状态为暂停服务时
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    Log.d(TAG, "当前GPS状态为暂停服务状态 provider不可用");
                     break;
                 default:
                     break;
@@ -403,60 +378,6 @@ public class LocationManagerUtil {
             return false;
         }
         return true;
-    }
-
-    /**
-     * wifi定位 不准确
-     */
-    private void getWifi() {
-        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (null == wifiManager) {
-            Log.d(TAG, "null == wifiManager return");
-            return;
-        }
-        if (!wifiManager.isWifiEnabled()) {
-            Log.d(TAG, "wifi未启用 return");
-            return;
-        }
-        WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-        String ssid = connectionInfo.getSSID();
-        final String bssid = connectionInfo.getBSSID();
-        int ipAddress = connectionInfo.getIpAddress();
-//        @SuppressLint("HardwareIds") String macAddress = connectionInfo.getMacAddress();
-//        String string = connectionInfo.toString();
-//        Log.d(TAG, "wifi名称:" + ssid);
-//        Log.d(TAG, "wifi的mac:" + bssid);
-//        Log.d(TAG, "ipAddress:" + ipAddress);
-//        Log.d(TAG, "macAddress:" + macAddress);
-//        Log.d(TAG, "string:" + string);
-
-        Executors.newFixedThreadPool(5).submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://api.cellocation.com:83/wifi/?mac=" + bssid + "&output=json");
-                    Log.d(TAG, "url:" + url.toString());
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //超时时间
-                    connection.setConnectTimeout(3000);
-                    //表示设置本次http请求使用GET方式
-                    connection.setRequestMethod("GET");
-                    //返回至为响应编号，如：HTTP_OK表示连接成功。
-                    int responsecode = connection.getResponseCode();
-                    if (responsecode == HttpURLConnection.HTTP_OK) {
-                        InputStream inputStream = connection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                        String result = bufferedReader.readLine();
-                        Log.d(TAG, "result:" + result);
-                    } else {
-                        Log.d(TAG, "result responsecode:" + responsecode);
-                    }
-                    connection.disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     /**

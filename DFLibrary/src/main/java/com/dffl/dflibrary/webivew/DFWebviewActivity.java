@@ -30,6 +30,7 @@ import com.dffl.dflibrary.DFManager;
 import com.dffl.dflibrary.PathUtils;
 import com.dffl.dflibrary.client.DFWebviewChromeClient;
 import com.dffl.dflibrary.client.DFWebviewClient;
+import com.dffl.dflibrary.webivew.jsbridge.JSBridgeInterface;
 import com.example.dflibrary.R;
 
 import java.util.ArrayList;
@@ -43,7 +44,8 @@ public class DFWebviewActivity extends AppCompatActivity {
     WebChromeClient.FileChooserParams fileChooserParams;
     private static final int REQUEST_TAKE_PHOTOES = 102;
     private static final int REQUEST_TAKE_VIDEO = 103;
-    String[] mPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    String[] mFilePermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    String[] mCameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +120,6 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setDefaultTextEncodingName("UTF-8");
         settings.setDatabaseEnabled(true);
-//        settings.setAppCacheEnabled(true);
         settings.setNeedInitialFocus(true);
         settings.setUserAgentString(settings.getUserAgentString() + DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
@@ -133,6 +134,8 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
+        JSBridgeInterface jsBridge = new JSBridgeInterface(DFWebviewActivity.this, dfWebView, true);
+        dfWebView.addJavascriptInterface(jsBridge, "android");
     }
 
     //private boolean
@@ -141,9 +144,12 @@ public class DFWebviewActivity extends AppCompatActivity {
         this.fileChooserParams = fileChooserParams;
         if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
             checkPermissions();
-        }
-        if (fileChooserParams.getAcceptTypes()[0].contains("image") || fileChooserParams.getAcceptTypes()[0].contains("camera")) {
+        } else if (fileChooserParams.getAcceptTypes()[0].contains("image")) {
             checkPermissions();
+        } else if (fileChooserParams.getAcceptTypes()[0].contains("camera")) {
+            checkPermissions();
+        } else {
+            chooseFile();
         }
     }
 
@@ -162,9 +168,10 @@ public class DFWebviewActivity extends AppCompatActivity {
         if (hasAllPermissionGranted(grantResults)) {
             if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
                 chooseVideoFile();
-            }
-            if (fileChooserParams.getAcceptTypes()[0].contains("image")) {
+            } else if (fileChooserParams.getAcceptTypes()[0].contains("image")) {
                 chooseImageFile();
+            } else {
+                chooseFile();
             }
         } else {
             Toast.makeText(this, "权限开启失败", Toast.LENGTH_LONG).show();
@@ -177,6 +184,12 @@ public class DFWebviewActivity extends AppCompatActivity {
         startActivityForResult(gallery, REQUEST_TAKE_PHOTOES);
     }
 
+    public void chooseFile() {
+        Intent gallery = new Intent(Intent.ACTION_PICK);
+        gallery.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(gallery, REQUEST_TAKE_PHOTOES);
+    }
+
     public void chooseVideoFile() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, REQUEST_TAKE_VIDEO);
@@ -184,17 +197,16 @@ public class DFWebviewActivity extends AppCompatActivity {
 
     private void checkPermissions() {
         int permissionCheck = 0;
-        permissionCheck = this.checkSelfPermission(mPermissions[0]);       //允许一个程序访问精良位置(如GPS)
-        permissionCheck += this.checkSelfPermission(mPermissions[1]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
-        permissionCheck += this.checkSelfPermission(mPermissions[2]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
+        permissionCheck = this.checkSelfPermission(mFilePermissions[0]);       //允许一个程序访问精良位置(如GPS)
+        permissionCheck += this.checkSelfPermission(mFilePermissions[1]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
+        permissionCheck += this.checkSelfPermission(mFilePermissions[2]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(mPermissions, 100);
+            requestPermissions(mFilePermissions, 100);
         } else {
             if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
                 chooseVideoFile();
             } else {
                 chooseImageFile();
-
             }
         }
     }
@@ -204,14 +216,17 @@ public class DFWebviewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_VIDEO && resultCode != RESULT_OK) {
             filePathCallback.onReceiveValue(new Uri[]{});
+            return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && resultCode != RESULT_OK) {
             filePathCallback.onReceiveValue(new Uri[]{});
+            return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && data != null && resultCode == RESULT_OK) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(PathUtils.getPath(this, data.getData()));
             filePathCallback.onReceiveValue(new Uri[]{Uri.parse(arrayList.get(0))});
+            return;
         }
         if (requestCode == REQUEST_TAKE_VIDEO && data != null && resultCode == RESULT_OK) {
             Uri selectedVideo = data.getData();

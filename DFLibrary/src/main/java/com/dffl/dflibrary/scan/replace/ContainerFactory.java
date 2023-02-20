@@ -37,11 +37,18 @@ public class ContainerFactory {
         }
 
         private static ScanCodeResultFragment getAcceptResultFragment(FragmentManager fm )  {
-            ScanCodeResultFragment fragment = new ScanCodeResultFragment();
-            fm.beginTransaction()
-                    .add(fragment, TAG)
-                    .commitAllowingStateLoss();
-            fm.executePendingTransactions();
-            return fragment;
+            try {
+                ScanCodeResultFragment fragment = new ScanCodeResultFragment();
+                fm.beginTransaction()
+                        .add(fragment, TAG)
+                        .commitAllowingStateLoss();
+                fm.executePendingTransactions();
+                return fragment;
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return null ;
+            }
+
         }
 }

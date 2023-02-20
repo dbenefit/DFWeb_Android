@@ -22,20 +22,16 @@ public class DFWebviewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (url.startsWith("http://") || url.startsWith("https://")) { //加载的url是http/https协议地址
-            view.loadUrl(url);
-            return false; //返回false表示此url默认由系统处理,url未加载完成，会继续往下走
+        if (!(url.startsWith("http://") || url.startsWith("https://"))) { //加载的url是http/https协议地址
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                view.getContext().startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
         }
-        else { //加载的url是自定义协议地址
-//            try {
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                view.getContext().startActivity(intent);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
             return false;
-        }
-
     }
 
 }

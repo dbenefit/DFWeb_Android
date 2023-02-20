@@ -18,7 +18,7 @@ import com.dffl.dflibrary.scan.callback.ResultCallBack;
 public class TestActivity extends AppCompatActivity {
     EditText editText;
     TextView tvScan, tvGoWebview;
-    String mUrl = "https://www.baidu.com/";
+    String mUrl = "https://aaronlianggq.github.io/web_sdk_demo.html";
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onSuccessLocationListener(GPSResponseBean gpsResponseBean) {
