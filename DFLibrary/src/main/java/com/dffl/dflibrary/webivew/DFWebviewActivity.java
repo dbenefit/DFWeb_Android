@@ -141,10 +141,9 @@ public class DFWebviewActivity extends AppCompatActivity {
         this.fileChooserParams = fileChooserParams;
         if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
             checkPermissions();
-            chooseVideoFile();
         }
         if (fileChooserParams.getAcceptTypes()[0].contains("image") || fileChooserParams.getAcceptTypes()[0].contains("camera")) {
-            chooseImageFile();
+            checkPermissions();
         }
     }
 
@@ -161,7 +160,6 @@ public class DFWebviewActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (hasAllPermissionGranted(grantResults)) {
-            chooseImageFile();
             if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
                 chooseVideoFile();
             }
