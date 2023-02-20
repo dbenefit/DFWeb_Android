@@ -191,9 +191,10 @@ public class DFWebviewActivity extends AppCompatActivity {
             requestPermissions(mPermissions, 100);
         } else {
             if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
-                chooseImageFile();
-            } else {
                 chooseVideoFile();
+            } else {
+                chooseImageFile();
+
             }
         }
     }
