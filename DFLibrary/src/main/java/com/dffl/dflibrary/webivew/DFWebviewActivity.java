@@ -120,7 +120,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setDatabaseEnabled(true);
 //        settings.setAppCacheEnabled(true);
         settings.setNeedInitialFocus(true);
-        settings.setUserAgentString(settings.getUserAgentString() + "-MAX-APP" + DFManager.getSingleton().getUserAgentString());
+        settings.setUserAgentString(settings.getUserAgentString() + DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
