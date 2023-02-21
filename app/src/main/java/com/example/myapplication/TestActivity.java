@@ -51,7 +51,7 @@ public class TestActivity extends AppCompatActivity {
         tvGoWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().startDFWebPage(TestActivity.this, mUrl, null);
+                DFManager.getSingleton().startDFWebPage(TestActivity.this, "file:///android_asset/test.html", null);
             }
         });
         tvScan.setOnClickListener(new View.OnClickListener() {

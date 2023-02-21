@@ -1,0 +1,100 @@
+<html>
+
+<head>
+    <title>sdk演示</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, user-scalable=no"/>
+    <script type="text/javascript"
+            src="https://static.dongfangfuli.com/info/bridge/1.0/prd/app_bridge.min.js"></script>
+    <script language="javascript">
+
+    function openAppScanPage() {
+      dfwAppclass.DFWScan.appOpenScan(function(respData){
+        console.log(respData)
+      });
+    }
+
+    function getGpsLoc(){
+      dfwAppclass.DFWLocation.appGetGpsLoc(function(respData){
+        var infoStr = JSON.stringify(respData)
+        console.log(infoStr)
+      })
+    }
+function getFile(value){
+        // 获取文本框dom
+        var doc = document.getElementById('doc');
+        // 获取上传控件dom
+        var upload = document.getElementById('upload');
+        // 获取文件名
+        var fileName = upload.files[0].name;
+        // 获取文件路径
+        var filePath = upload.value;
+        // 将文件名载入文本框
+        doc.value = fileName;
+        alert(fileName)
+        console.log(fileName);
+        console.log(filePath);
+    }
+
+
+    </script>
+    <style type="text/css">
+    body {
+      background-color: #ffffff;
+    }
+    .moudle_list {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      position: relative;
+
+    }
+    .moudle_list_item {
+      width: 100%;
+      margin-top: 5px;
+      padding-left: 5px;
+      padding-right: -5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: #EFEFEF;
+      color: #099FDE;
+      font-size: 16px;
+      word-break: break-all;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+    .moudle_list_file {
+      width: 100%;
+      height: 100
+      margin-top: 5px;
+      padding-left: 5px;
+      padding-right: -5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    </style>
+</head>
+<body>
+<div>
+    <div class="moudle_list"> demo演示
+        <div class="moudle_list_item" id="btn1" onclick="openAppScanPage()">扫码测试</div>
+        <div class="moudle_list_item" id="btn2" onclick="getGpsLoc()">获取定位信息</div>
+        <input type="file" class="moudle_list_file" name="选择图片"
+               accept="image/png,image/jpeg,image/gif" name="myPic" id="thePic"></div>
+    <input type="file" class="moudle_list_file" name="选择视频" accept="video" name="myPic"
+           id="thevideo"></div>
+<input type="file" class="moudle_list_file" name="myPic" id="theCamera">  </div>
+
+
+<span>文件名：</span>
+<input type="text" id="doc">
+<button>选择文件</button>
+<input type="file" id="upload" onchange="getFile(value)"
+       accept="image/png,image/jpeg,image/gif"
+       style="opacity: 0.5; margin-left: -74px; width: 74px;">
+
+</div>
+
+</body>

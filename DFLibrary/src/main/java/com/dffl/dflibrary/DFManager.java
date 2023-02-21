@@ -74,7 +74,7 @@ public class DFManager {
     }
 
     public void removeLocationCallback(LocationCallback locationCallback) {
-            locationCallbacks.remove(locationCallback);
+        locationCallbacks.remove(locationCallback);
     }
 
     public void startLocation(Context context, LocationCallback locationCallback) {
@@ -101,8 +101,5 @@ public class DFManager {
 
     public void startScan(AppCompatActivity appCompatActivity, ResultCallBack resultCallBack) {
         new CaptureStartup().from(appCompatActivity).setType(0).create().forResult(resultCallBack);
-    }
-    public void setLocationPlugin(SelfImplPlugin locationPlugin){
-
     }
 }

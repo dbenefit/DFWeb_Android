@@ -164,7 +164,7 @@ public class CaptureActivity extends AppCompatActivity implements CameraScan.OnS
      * @return
      */
     public int getLayoutId(){
-        return  R.layout.df_zxl_capture;
+        return  R.layout.dfsdk_zxl_capture;
     }
 
     /**

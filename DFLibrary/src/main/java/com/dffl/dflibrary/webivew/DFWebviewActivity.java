@@ -8,15 +8,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -24,9 +20,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dffl.dflibrary.DFManager;
+import com.dffl.dflibrary.OnFileChooseCallBack;
 import com.dffl.dflibrary.PathUtils;
 import com.dffl.dflibrary.client.DFWebviewChromeClient;
 import com.dffl.dflibrary.client.DFWebviewClient;
@@ -40,12 +36,17 @@ public class DFWebviewActivity extends AppCompatActivity {
     String mUrl = "";
     TextView tvTitle;
     ImageView ivBack, ivFinish;
-    ValueCallback<Uri[]> filePathCallback;
-    WebChromeClient.FileChooserParams fileChooserParams;
-    private static final int REQUEST_TAKE_PHOTOES = 102;
-    private static final int REQUEST_TAKE_VIDEO = 103;
+    private static final int REQUEST_TAKE_PHOTOES = 1002;
+    private static final int REQUEST_TAKE_VIDEO = 1003;
+
+    private static final int REQUEST_TAKE_FILE = 1004;
     String[] mFilePermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String[] mCameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    ValueCallback<Uri[]> mFilePathCallback;
+    int CHOOSE_TYPE_IMAGE = 0;
+    int CHOOSE_TYPE_VIDEO = 1;
+    int CHOOSE_TYPE_FILE = 1;
+    int mFileType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,6 @@ public class DFWebviewActivity extends AppCompatActivity {
 
     private void initView() {
         dfWebView = findViewById(R.id.webview);
-
         tvTitle = findViewById(R.id.title_tv);
         ivBack = findViewById(R.id.title_back);
         ivFinish = findViewById(R.id.title_finish);
@@ -88,13 +88,41 @@ public class DFWebviewActivity extends AppCompatActivity {
     }
 
     private void initWebviewClient() {
+        DFWebviewChromeClient dfWebviewChromeClient = new DFWebviewChromeClient();
+        register(dfWebviewChromeClient);
         dfWebView.setWebViewClient(new DFWebviewClient());
-        dfWebView.setWebChromeClient(new DFWebviewChromeClient(this));
+
         CookieManager cookieManager = CookieManager.getInstance();
         for (String key : DFManager.getSingleton().getCookieMap().keySet()) {
             cookieManager.setCookie(key, DFManager.getSingleton().getCookieMap().get(key));
         }
         cookieManager.flush();
+    }
+
+    private void register(DFWebviewChromeClient dfWebviewChromeClient) {
+        dfWebviewChromeClient.setOnFileChooseCallBack(new OnFileChooseCallBack() {
+            @Override
+            public void onShowFileChooser(ValueCallback<Uri[]> filePathCallback) {
+                mFilePathCallback = filePathCallback;
+                mFileType = CHOOSE_TYPE_FILE;
+                checkPermissions();
+            }
+
+            @Override
+            public void onVideoChooser(ValueCallback<Uri[]> filePathCallback) {
+                mFilePathCallback = filePathCallback;
+                mFileType = CHOOSE_TYPE_VIDEO;
+                checkPermissions();
+            }
+
+            @Override
+            public void onImageChooser(ValueCallback<Uri[]> filePathCallback) {
+                mFilePathCallback = filePathCallback;
+                mFileType = CHOOSE_TYPE_IMAGE;
+                checkPermissions();
+            }
+        });
+        dfWebView.setWebChromeClient(dfWebviewChromeClient);
     }
 
     public void setTitle(String title) {
@@ -138,21 +166,6 @@ public class DFWebviewActivity extends AppCompatActivity {
         dfWebView.addJavascriptInterface(jsBridge, "android");
     }
 
-    //private boolean
-    public void onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-        this.filePathCallback = filePathCallback;
-        this.fileChooserParams = fileChooserParams;
-        if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
-            checkPermissions();
-        } else if (fileChooserParams.getAcceptTypes()[0].contains("image")) {
-            checkPermissions();
-        } else if (fileChooserParams.getAcceptTypes()[0].contains("camera")) {
-            checkPermissions();
-        } else {
-            chooseFile();
-        }
-    }
-
     private boolean hasAllPermissionGranted(int[] grantResults) {
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
@@ -166,15 +179,14 @@ public class DFWebviewActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (hasAllPermissionGranted(grantResults)) {
-            if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
+            if (mFileType == CHOOSE_TYPE_VIDEO) {
                 chooseVideoFile();
-            } else if (fileChooserParams.getAcceptTypes()[0].contains("image")) {
+            } else if (mFileType == CHOOSE_TYPE_IMAGE) {
                 chooseImageFile();
             } else {
+
                 chooseFile();
             }
-        } else {
-            Toast.makeText(this, "权限开启失败", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -185,9 +197,11 @@ public class DFWebviewActivity extends AppCompatActivity {
     }
 
     public void chooseFile() {
-        Intent gallery = new Intent(Intent.ACTION_PICK);
-        gallery.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(gallery, REQUEST_TAKE_PHOTOES);
+        //调用系统文件夹
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQUEST_TAKE_FILE);
     }
 
     public void chooseVideoFile() {
@@ -203,10 +217,12 @@ public class DFWebviewActivity extends AppCompatActivity {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(mFilePermissions, 100);
         } else {
-            if (fileChooserParams.getAcceptTypes()[0].contains("video")) {
+            if (mFileType == CHOOSE_TYPE_VIDEO) {
                 chooseVideoFile();
-            } else {
+            } else if (mFileType == CHOOSE_TYPE_IMAGE) {
                 chooseImageFile();
+            } else {
+                chooseFile();
             }
         }
     }
@@ -215,17 +231,27 @@ public class DFWebviewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_VIDEO && resultCode != RESULT_OK) {
-            filePathCallback.onReceiveValue(new Uri[]{});
+            mFilePathCallback.onReceiveValue(new Uri[]{});
+            return;
+        }
+        if (requestCode == REQUEST_TAKE_FILE && resultCode != RESULT_OK) {
+            mFilePathCallback.onReceiveValue(new Uri[]{});
             return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && resultCode != RESULT_OK) {
-            filePathCallback.onReceiveValue(new Uri[]{});
+            mFilePathCallback.onReceiveValue(new Uri[]{});
             return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && data != null && resultCode == RESULT_OK) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(PathUtils.getPath(this, data.getData()));
-            filePathCallback.onReceiveValue(new Uri[]{Uri.parse(arrayList.get(0))});
+            mFilePathCallback.onReceiveValue(new Uri[]{Uri.parse(arrayList.get(0))});
+            return;
+        }
+        if (requestCode == REQUEST_TAKE_FILE && data != null && resultCode == RESULT_OK) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add(PathUtils.getPath(this, data.getData()));
+            mFilePathCallback.onReceiveValue(new Uri[]{Uri.parse(arrayList.get(0))});
             return;
         }
         if (requestCode == REQUEST_TAKE_VIDEO && data != null && resultCode == RESULT_OK) {
@@ -237,7 +263,7 @@ public class DFWebviewActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String VIDEOPATH = cursor.getString(columnIndex);
             cursor.close();
-            filePathCallback.onReceiveValue(new Uri[]{Uri.parse(VIDEOPATH)});
+            mFilePathCallback.onReceiveValue(new Uri[]{Uri.parse(VIDEOPATH)});
 
         }
     }

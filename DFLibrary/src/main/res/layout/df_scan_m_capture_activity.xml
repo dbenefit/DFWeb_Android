@@ -26,7 +26,7 @@
             android:layout_marginStart="6dp"
             android:id="@+id/iv_back"
             android:padding="10dp"
-            android:src="@mipmap/df_res_back_icon"
+            android:src="@mipmap/dfsdk_res_back_icon"
             android:layout_width="44dp"
             android:layout_height="44dp"/>
 
@@ -38,7 +38,7 @@
             android:id="@+id/ivFlashlight"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:src="@mipmap/df_res_open_light" />
+            android:src="@mipmap/dfsdk_res_open_light" />
 
         <ImageView
             android:layout_marginEnd="44dp"
@@ -49,7 +49,7 @@
             android:id="@+id/iv_select_pic"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:src="@mipmap/df_res_select_pic" />
+            android:src="@mipmap/dfsdk_res_select_pic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

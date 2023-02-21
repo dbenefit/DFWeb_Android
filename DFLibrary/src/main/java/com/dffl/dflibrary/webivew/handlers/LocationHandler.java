@@ -17,13 +17,13 @@ public class LocationHandler implements JSBridgeHandler {
         DFManager.getSingleton().startLocation(activity, new LocationCallback() {
             @Override
             public void onSuccessLocationListener(GPSResponseBean gpsResponseBean) {
-                if (gpsResponseBean.getErrorCode()!=-1){
+                if (gpsResponseBean.getErrorCode() != -1) {
                     jsResponseBuilder
                             .setCode(JSResponseCode.SUCCESS.getCode())
                             .setResponse(gpsResponseBean)
                             .setMessage("success");
                     callback.endWord(jsResponseBuilder.buildResponse());
-                }else {
+                } else {
                     jsResponseBuilder
                             .setCode(JSResponseCode.FAILED.getCode())
                             .setMessage("failed");

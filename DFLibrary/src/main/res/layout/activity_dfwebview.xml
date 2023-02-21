@@ -26,7 +26,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp"
                 android:padding="4dp"
-                android:src="@mipmap/df_ic_back_black"
+                android:src="@mipmap/dfsdk_ic_back_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="11dp"
                 android:padding="7dp"
-                android:src="@mipmap/df_res_finish_black"
+                android:src="@mipmap/dfsdk_res_finish_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

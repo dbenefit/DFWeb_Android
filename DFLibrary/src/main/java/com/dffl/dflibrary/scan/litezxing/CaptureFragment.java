@@ -186,7 +186,7 @@ public class CaptureFragment extends Fragment implements CameraScan.OnScanResult
      * @return
      */
     public int getLayoutId(){
-        return  R.layout.df_zxl_capture;
+        return  R.layout.dfsdk_zxl_capture;
     }
 
     /**

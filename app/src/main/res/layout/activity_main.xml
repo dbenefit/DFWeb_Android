@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.dffl.dfsdk.MainActivity">
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/edit_url"
@@ -14,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:text="https://www.baidu.com/" />
+        android:text="https://aaronlianggq.github.io/web_sdk_demo.html" />
 
     <TextView
         android:id="@+id/tv_goWebview"

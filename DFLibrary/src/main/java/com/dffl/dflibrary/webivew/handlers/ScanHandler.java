@@ -29,7 +29,7 @@ public class ScanHandler implements JSBridgeHandler {
                 }else{
                     jsResponseBuilder
                             .setCode(JSResponseCode.FAILED.getCode())
-                            .setResponse(new ScanBeanResult(result))
+                            .setResponse(new ScanBeanResult("failed"))
                             .setMessage("failed");
                     callback.endWord(jsResponseBuilder.buildResponse());
                 }
