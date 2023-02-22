@@ -162,7 +162,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-        JSBridgeInterface jsBridge = new JSBridgeInterface(DFWebviewActivity.this, dfWebView, true);
+        JSBridgeInterface jsBridge = new JSBridgeInterface(DFWebviewActivity.this, dfWebView);
         dfWebView.addJavascriptInterface(jsBridge, "android");
     }
 

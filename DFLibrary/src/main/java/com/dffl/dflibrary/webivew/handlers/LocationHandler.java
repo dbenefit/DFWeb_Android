@@ -12,7 +12,7 @@ import com.dffl.dflibrary.webivew.plugin.SelfImplPluginCallback;
 
 public class LocationHandler implements JSBridgeHandler {
     @Override
-    public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String callTag) {
+    public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
         JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
         DFManager.getSingleton().startLocation(activity, new LocationCallback() {
             @Override

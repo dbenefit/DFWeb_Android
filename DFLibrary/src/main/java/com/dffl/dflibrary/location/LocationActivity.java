@@ -7,13 +7,9 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.Toast;
 
-import com.dffl.dflibrary.DFManager;
-import com.dffl.dflibrary.LocationManagerUtil;
-import com.example.dflibrary.R;
+import com.dffl.dflibrary.LocationUtil;
 
 public class LocationActivity extends AppCompatActivity {
     private String[] permissions = new String[]{
@@ -26,7 +22,7 @@ public class LocationActivity extends AppCompatActivity {
         if (!checkPermission()){
             ActivityCompat.requestPermissions( this, permissions, REQUEST_LOCATION_CODE);
         }else {
-            LocationManagerUtil.getInstance().startSingleLocation(DFManager.getSingleton().getLocationCallbacks());
+            LocationUtil.getInstance().startSingleLocation();
             finish();
         }
     }
@@ -41,7 +37,7 @@ public class LocationActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            LocationManagerUtil.getInstance().startSingleLocation(DFManager.getSingleton().getLocationCallbacks());
+            LocationUtil.getInstance().startSingleLocation();
             finish();
         } else {
             finish();

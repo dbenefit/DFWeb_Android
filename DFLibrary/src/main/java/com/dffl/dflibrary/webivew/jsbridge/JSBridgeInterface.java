@@ -20,19 +20,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JSBridgeInterface {
-    FragmentActivity ctx;
-    WebView webView;
-    Boolean isActivity;
+
     ArrayList<String> mMethodNames = new ArrayList<>();
     HashMap<String, JSBridgeHandler> mHandler = new HashMap<>();
-    WeakReference<WebView> mWebView = new WeakReference<>(webView);
+    WeakReference<WebView> mWebView ;
     WeakReference<FragmentActivity> mContext ;
 
-    public JSBridgeInterface(FragmentActivity ctx, WebView webView, Boolean isActivity) {
-        this.ctx = ctx;
-        mContext = new WeakReference<>(this.ctx);
-        this.webView = webView;
-        this.isActivity = isActivity;
+    public JSBridgeInterface(FragmentActivity ctx, WebView webView) {
+        mContext = new WeakReference<>(ctx);
+        mWebView = new WeakReference<>(webView);
         mMethodNames = HandlerPathCollect.collectAllJSMethodName();
     }
     @JavascriptInterface
@@ -57,15 +53,16 @@ public class JSBridgeInterface {
             JSBridgeHandler handler = getHandlerByName(pathName);
             if (handler!=null&&mContext.get()!=null){
                 String finalCallTag = callTag;
+                String finalParams = params;
                 mContext.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handler.doWhat(ctx, new JSHandlerCallback() {
+                        handler.doWhat(mContext.get(), new JSHandlerCallback() {
                             @Override
                             public void endWord(String result) {
                                 handCallback(callBack, result);
                             }
-                        }, finalCallTag);
+                        }, finalParams,finalCallTag);
                     }
                 });
 

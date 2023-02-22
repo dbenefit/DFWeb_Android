@@ -1,18 +1,14 @@
 package com.dffl.dflibrary;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dflibrary.location.LocationActivity;
 import com.dffl.dflibrary.location.LocationCallback;
 import com.dffl.dflibrary.scan.CaptureStartup;
 import com.dffl.dflibrary.scan.callback.ResultCallBack;
 import com.dffl.dflibrary.webivew.DFWebviewActivity;
-import com.dffl.dflibrary.webivew.plugin.SelfImplPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,19 +16,10 @@ import java.util.Map;
 
 public class DFManager {
     private Map<String, String> cookieMap = new HashMap<>();
-    private ArrayList<LocationCallback> locationCallbacks = new ArrayList<>();
     private String userAgentString = "";
 
-    public ArrayList<LocationCallback> getLocationCallbacks() {
-        return locationCallbacks;
-    }
-
     public String TAG = "DFSDK --";
-    public void setLocationCallbacks(ArrayList<LocationCallback> locationCallbacks) {
-        this.locationCallbacks = locationCallbacks;
-    }
 
-    LocationCallback locationCallback;
 
     private DFManager() {
     }
@@ -61,9 +48,6 @@ public class DFManager {
         this.userAgentString = userAgent;
     }
 
-    public void init(Application application) {
-        Utils.getSingleton().init(application);
-    }
 
     public void startDFWebPage(Context context, String url, HashMap<String, String> params) {
         Intent intent = new Intent(context, DFWebviewActivity.class);
@@ -75,33 +59,13 @@ public class DFManager {
     }
 
     public void removeLocationCallback(LocationCallback locationCallback) {
-        locationCallbacks.remove(locationCallback);
+        LocationUtil.getInstance().removeLocationCallback(locationCallback);
     }
-
     public void startLocation(Context context, LocationCallback locationCallback) {
-
-        if (context == null) {
-            new Exception("DFSDK---  请设置上下文！").printStackTrace();
-            return;
-        }
-        if (locationCallback != null) {
-            if (!locationCallbacks.contains(locationCallback)) {
-                locationCallbacks.add(locationCallback);
-            }
-        } else {
-            new Exception("DFSDK--- 请设置接口回调！").printStackTrace();
-            return;
-        }
-        if (context instanceof AppCompatActivity) {
-            context.startActivity(new Intent(context, LocationActivity.class));
-        } else {
-            Intent intent = new Intent(context, LocationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        }
+       LocationUtil.getInstance().startLocationCheck(context,locationCallback);
     }
 
-    public void startScan(AppCompatActivity appCompatActivity, ResultCallBack resultCallBack) {
-        new CaptureStartup().from(appCompatActivity).setType(0).create().forResult(resultCallBack);
+    public void startScan(FragmentActivity fragmentActivity, ResultCallBack resultCallBack) {
+        new CaptureStartup().from(fragmentActivity).setType(0).create().forResult(resultCallBack);
     }
 }

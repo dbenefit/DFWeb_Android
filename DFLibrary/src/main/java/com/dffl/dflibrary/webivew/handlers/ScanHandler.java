@@ -15,9 +15,9 @@ import com.dffl.dflibrary.webivew.plugin.SelfImplPluginCallback;
 
 public class ScanHandler implements JSBridgeHandler {
     @Override
-    public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String callTag) {
+    public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String callTag, String param) {
         JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
-        DFManager.getSingleton().startScan((AppCompatActivity) activity, new ResultCallBack() {
+        DFManager.getSingleton().startScan((FragmentActivity) activity, new ResultCallBack() {
             @Override
             public void onResult(boolean success, boolean cancel, String result) {
                 if (result != null) {

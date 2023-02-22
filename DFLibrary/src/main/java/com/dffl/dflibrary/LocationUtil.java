@@ -4,9 +4,9 @@ import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,50 +14,37 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.telephony.TelephonyManager;
-import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresPermission;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.dffl.dflibrary.location.GPSResponseBean;
+import com.dffl.dflibrary.location.LocationActivity;
 import com.dffl.dflibrary.location.LocationCallback;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executors;
 
-public class LocationManagerUtil {
+public class LocationUtil {
     private static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    private volatile static LocationManagerUtil locationManagerUtil = null;
+    private volatile static LocationUtil locationUtil = null;
     private final String TAG = "LocationManagerUtil";
-    private final Context context;
+    private  Context mContext;
+    ;
     private LocationManager locationManager;
     private ArrayList<LocationCallback> listeners = new ArrayList<>();
     private final Handler handler = new Handler(Looper.myLooper());
-    private String[] permissions = new String[]{
-            Manifest.permission.LOCATION_HARDWARE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-    };
 
     /**
      * 超时时间10秒
@@ -69,29 +56,54 @@ public class LocationManagerUtil {
      */
     private boolean endlistenerFlag = false;
 
-    private LocationManagerUtil() {
-        context = Utils.getApp();
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    private LocationUtil() {
     }
 
-    public static LocationManagerUtil getInstance() {
-        if (null == locationManagerUtil) {
-            synchronized (LocationManagerUtil.class) {
-                if (null == locationManagerUtil) {
-                    locationManagerUtil = new LocationManagerUtil();
+    public static LocationUtil getInstance() {
+        if (null == locationUtil) {
+            synchronized (LocationUtil.class) {
+                if (null == locationUtil) {
+                    locationUtil = new LocationUtil();
                 }
             }
         }
-        return locationManagerUtil;
+        return locationUtil;
+    }
+    public void removeLocationCallback(LocationCallback locationCallback) {
+        listeners.remove(locationCallback);
     }
 
+    public void startLocationCheck(Context context,LocationCallback locationCallback){
+        if (context == null) {
+            new Throwable("DFSDK---  请设置上下文！").printStackTrace();
+            return;
+        }
+        if (locationCallback != null) {
+            if (!listeners.contains(locationCallback)) {
+                listeners.add(locationCallback);
+            }
+        } else {
+            new Throwable("DFSDK--- 请设置接口回调！").printStackTrace();
+            return;
+        }
+        this.mContext=context;
+        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
+        if (context instanceof AppCompatActivity) {
+            context.startActivity(new Intent(context, LocationActivity.class));
+        } else {
+            Intent intent = new Intent(context, LocationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+    }
     /**
      * 开始定位 单次定位
      *
      * @param
      */
-    public void startSingleLocation(ArrayList<LocationCallback> listeners) {
-        this.listeners = listeners;
+    public void startSingleLocation() {
+
         endlistenerFlag = false;
 
         if (null == locationManager) {
@@ -154,6 +166,7 @@ public class LocationManagerUtil {
                 if (!endlistenerFlag) {
                     GPSResponseBean gpsResponseBean = new GPSResponseBean();
                     gpsResponseBean.setErrorInfo("定位超时");
+                    
                     gpsResponseBean.setErrorCode(-1);
                     for (int i = 0; i < listeners.size(); i++) {
                         listeners.get(i).onSuccessLocationListener(gpsResponseBean);
@@ -165,14 +178,14 @@ public class LocationManagerUtil {
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private static NetworkInfo getActiveNetworkInfo() {
+    private   NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager cm =
-                (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) this.mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) return null;
         return cm.getActiveNetworkInfo();
     }
 
-    public static boolean isConnected() {
+    public  boolean isConnected() {
         NetworkInfo info = getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
@@ -367,7 +380,7 @@ public class LocationManagerUtil {
      * @return
      */
     private boolean checkPermission() {
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -387,7 +400,7 @@ public class LocationManagerUtil {
      * @return
      */
     private String getLocationAddr(double longitude, double latitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
         boolean flag = Geocoder.isPresent();
         if (!flag) {
             Log.d(TAG, "地理编码不可使用");
