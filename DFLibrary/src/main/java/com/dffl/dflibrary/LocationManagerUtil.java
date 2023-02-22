@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -46,7 +47,6 @@ import java.util.concurrent.Executors;
 
 public class LocationManagerUtil {
     private static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    private static final int MY_REQUEST_CODE = 100;
 
     private volatile static LocationManagerUtil locationManagerUtil = null;
     private final String TAG = "LocationManagerUtil";
@@ -132,10 +132,10 @@ public class LocationManagerUtil {
 //        crite.setAccuracy(Criteria.ACCURACY_FINE); //精度
 //        crite.setPowerRequirement(Criteria.POWER_LOW); //功耗类型选择
 //        String provider = locationManager.getBestProvider(crite, true);
-
+//
 //        String networkProvider = LocationManager.NETWORK_PROVIDER;
-//        String gpsProvider = LocationManager.GPS_PROVIDER;
-//        String passiveProvider = LocationManager.PASSIVE_PROVIDER;
+        String gpsProvider = LocationManager.GPS_PROVIDER;
+        String passiveProvider = LocationManager.PASSIVE_PROVIDER;
 
         //添加地理围栏
 //        locationManager.addProximityAlert(38.234, 114.234, 5, -1, PendingIntent.getBroadcast(this, 1, new Intent(), 3));
@@ -379,102 +379,6 @@ public class LocationManagerUtil {
         }
         return true;
     }
-
-    /**
-     * 手机基站信息定位 不准确
-     */
-    private void getTelephonyManager() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (null == manager) {
-            return;
-        }
-        String networkOperator = manager.getNetworkOperator();
-        if (TextUtils.isEmpty(networkOperator)) {
-            return;
-        }
-        GsmCellLocation location = (GsmCellLocation) manager.getCellLocation();
-        final int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-        final int mnc = Integer.parseInt(networkOperator.substring(3));
-        final int lac = location.getLac();
-        final int cid = location.getCid();
-        Log.d(TAG, "mcc:" + mcc);
-        Log.d(TAG, "mnc:" + mnc);
-        Log.d(TAG, "lac:" + lac);
-        Log.d(TAG, "cid:" + cid);
-
-        Executors.newFixedThreadPool(5).submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://api.cellocation.com:83/cell/?mcc=" + mcc + "&mnc=" + mnc + "&lac=" + lac + "&ci=" + cid + "&output=json");
-                    Log.d(TAG, "url:" + url.toString());
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //超时时间
-                    connection.setConnectTimeout(3000);
-                    //表示设置本次http请求使用GET方式
-                    connection.setRequestMethod("GET");
-                    //返回至为响应编号，如：HTTP_OK表示连接成功。
-                    int responsecode = connection.getResponseCode();
-                    if (responsecode == HttpURLConnection.HTTP_OK) {
-                        InputStream inputStream = connection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                        String result = bufferedReader.readLine();
-                        Log.d(TAG, "result:" + result);
-                    } else {
-                        Log.d(TAG, "result responsecode:" + responsecode);
-                    }
-                    connection.disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取网络位置
-     *
-     * @param longitude
-     * @param latitude
-     */
-    private void getNetworkAddress(final double longitude, final double latitude) {
-        Executors.newFixedThreadPool(5).submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://api.cellocation.com:83/regeo/?lat=" + latitude + "&lon=" + longitude + "&output=json");
-                    Log.d(TAG, "url:" + url.toString());
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //超时时间
-                    connection.setConnectTimeout(3000);
-                    //表示设置本次http请求使用GET方式
-                    connection.setRequestMethod("GET");
-                    //返回至为响应编号，如：HTTP_OK表示连接成功。
-                    int responsecode = connection.getResponseCode();
-                    if (responsecode == HttpURLConnection.HTTP_OK) {
-                        InputStream inputStream = connection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                        String result = bufferedReader.readLine();
-                    } else {
-                    }
-                    connection.disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     /**
      * 获取地理位置
      *

@@ -27,6 +27,7 @@ public class DFManager {
         return locationCallbacks;
     }
 
+    public String TAG = "DFSDK --";
     public void setLocationCallbacks(ArrayList<LocationCallback> locationCallbacks) {
         this.locationCallbacks = locationCallbacks;
     }
@@ -78,16 +79,17 @@ public class DFManager {
     }
 
     public void startLocation(Context context, LocationCallback locationCallback) {
+
+        if (context == null) {
+            new Exception("DFSDK---  请设置上下文！").printStackTrace();
+            return;
+        }
         if (locationCallback != null) {
             if (!locationCallbacks.contains(locationCallback)) {
                 locationCallbacks.add(locationCallback);
             }
         } else {
-            Toast.makeText(context, "请设置接口回调！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (context == null) {
-            Toast.makeText(Utils.getApp(), "请设置上下文！", Toast.LENGTH_SHORT).show();
+            new Exception("DFSDK--- 请设置接口回调！").printStackTrace();
             return;
         }
         if (context instanceof AppCompatActivity) {

@@ -41,7 +41,7 @@ public class DFWebviewActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_FILE = 1004;
     String[] mFilePermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    String[] mCameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//    String[] mCameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     ValueCallback<Uri[]> mFilePathCallback;
     int CHOOSE_TYPE_IMAGE = 0;
     int CHOOSE_TYPE_VIDEO = 1;
@@ -230,6 +230,9 @@ public class DFWebviewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mFilePathCallback==null){
+            return;
+        }
         if (requestCode == REQUEST_TAKE_VIDEO && resultCode != RESULT_OK) {
             mFilePathCallback.onReceiveValue(new Uri[]{});
             return;
