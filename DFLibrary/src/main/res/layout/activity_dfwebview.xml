@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:context="com.dffl.dflibrary.webivew.DFWebviewActivity">
+    tools:context="com.dongffl.dfweb.webivew.DFWebviewActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <com.dffl.dflibrary.webivew.DFWebview
+    <com.dongffl.dfweb.webivew.DFWebview
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dffl.dflibrary.DFManager;
-import com.dffl.dflibrary.location.GPSResponseBean;
-import com.dffl.dflibrary.location.LocationCallback;
-import com.dffl.dflibrary.scan.callback.ResultCallBack;
+import com.dongffl.dfweb.DFManager;
+import com.dongffl.dfweb.location.GPSResponseBean;
+import com.dongffl.dfweb.location.LocationCallback;
+import com.dongffl.dfweb.scan.callback.ResultCallBack;
 
 public class TestActivity extends AppCompatActivity {
     EditText editText;

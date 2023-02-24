@@ -7,7 +7,7 @@
         android:id="@+id/previewView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <com.dffl.dflibrary.scan.litezxing.ViewfinderView
+    <com.dongffl.dfweb.scan.litezxing.ViewfinderView
         android:id="@+id/viewfinderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

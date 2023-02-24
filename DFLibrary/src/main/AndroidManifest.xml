@@ -16,14 +16,14 @@
 
     <application android:usesCleartextTraffic="true">
         <activity
-            android:name="com.dffl.dflibrary.location.LocationActivity"
+            android:name="com.dongffl.dfweb.location.LocationActivity"
             android:theme="@style/AppTheme.TranslucentTheme"
             android:exported="false" />
         <activity
-            android:name="com.dffl.dflibrary.webivew.DFWebviewActivity"
+            android:name="com.dongffl.dfweb.webivew.DFWebviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.dffl.dflibrary.scan.DFCaptureActivity"
+            android:name="com.dongffl.dfweb.scan.DFCaptureActivity"
             android:exported="false" />
     </application>
 
