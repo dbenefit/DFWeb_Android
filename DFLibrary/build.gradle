@@ -4,7 +4,7 @@ plugins {
 
 }
 group = 'com.dongffl.dbenefit'
-version = "v1.0.0"
+version = "1.0.0"
 android {
     compileSdk 32
 
@@ -51,8 +51,8 @@ afterEvaluate {
                 from components.release
                 // 这里头是artifacts的配置信息，不填会采用默认的
                 groupId = 'com.github.dbenefit'
-                artifactId = 'library'
-                version = 'v1.0.0'
+                artifactId = 'DFLibrary'
+                version = '1.0.0'
             }
         }
     }
