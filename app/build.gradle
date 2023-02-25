@@ -45,3 +45,6 @@ dependencies {
     implementation project(':DFLibrary')
 
 }
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.

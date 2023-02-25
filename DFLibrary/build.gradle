@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.library'
+    id("maven-publish")//this
+
 }
-group = 'com.dongffl.dfweb'
+group = 'com.dongffl.dbenefit'
+version = "v1.0.0"
 android {
     compileSdk 32
 
@@ -10,6 +13,8 @@ android {
         targetSdk 32
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        versionName "1.0.0"
+        versionCode 1
     }
 
     buildTypes {
@@ -37,3 +42,21 @@ dependencies {
     implementation 'androidx.camera:camera-view:1.1.0'
 
 }
+afterEvaluate {
+    publishing {
+        publications {
+            // 这个mavenJava可以随便填，只是一个任务名字而已
+            // MavenPublication必须有，这个是调用的任务类
+            release(MavenPublication) {
+                from components.release
+                // 这里头是artifacts的配置信息，不填会采用默认的
+                groupId = 'com.github.dbenefit'
+                artifactId = 'library'
+                version = 'v1.0.0'
+            }
+        }
+    }
+}
+
+
+
