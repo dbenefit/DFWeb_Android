@@ -139,7 +139,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setDefaultTextEncodingName("UTF-8");
         settings.setDatabaseEnabled(true);
         settings.setNeedInitialFocus(true);
-        settings.setUserAgentString(settings.getUserAgentString() + DFManager.getSingleton().getUserAgentString());
+        settings.setUserAgentString(settings.getUserAgentString() +"-BFD-APP"+"-MAX-APP"+ DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
