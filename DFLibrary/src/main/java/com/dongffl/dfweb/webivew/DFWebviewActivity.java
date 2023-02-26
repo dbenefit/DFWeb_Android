@@ -239,29 +239,16 @@ public class DFWebviewActivity extends AppCompatActivity {
             return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && data != null && resultCode == RESULT_OK) {
-            ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(PathUtils.getPath(this, data.getData()));
             Uri[] uris = new Uri[]{ data.getData()};
             mFilePathCallback.onReceiveValue(uris);
             return;
         }
         if (requestCode == REQUEST_TAKE_FILE && data != null && resultCode == RESULT_OK) {
-            ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(PathUtils.getPath(this, data.getData()));
             mFilePathCallback.onReceiveValue(new Uri[]{data.getData()});
             return;
         }
         if (requestCode == REQUEST_TAKE_VIDEO && data != null && resultCode == RESULT_OK) {
-            Uri selectedVideo = data.getData();
-            String[] filePathColumn = {MediaStore.Video.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedVideo,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String VIDEOPATH = cursor.getString(columnIndex);
-            cursor.close();
-            mFilePathCallback.onReceiveValue(new Uri[]{data.getData()});
-
+              mFilePathCallback.onReceiveValue(new Uri[]{data.getData()});
         }
     }
 }
