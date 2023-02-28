@@ -188,7 +188,7 @@ public class DFWebviewActivity extends AppCompatActivity {
                 PackageManager packageManager = getApplicationContext().getPackageManager();
                 ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
                 String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
-                new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "需要您的文件读写权限，相机权限,请允许").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "程序没有权限访问相机,请在设置中允许"+applicationName+"访问相机 ").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

@@ -54,16 +54,15 @@ public class LocationActivity extends AppCompatActivity {
             try {
                 applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
             } catch (PackageManager.NameNotFoundException e) {
-                throw new RuntimeException(e);
             }
             String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
-            new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "需要您的定位权限,请允许").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this).setTitle("权限").setMessage("定位权限未开启，请在设置中开启"+applicationName+"定位权限").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     finish();
                 }
-            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            }).setPositiveButton("去设置", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

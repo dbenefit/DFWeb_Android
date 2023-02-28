@@ -3,11 +3,13 @@ package com.dongffl.dfweb.scan;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -221,12 +223,37 @@ public class DFCaptureActivity extends CaptureActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (hasAllPermissionGranted(grantResults)) {
-            if (isSelectPictureClicked) {
-                selectPic();
+        if (requestCode == RequestCode) {
+            if (hasAllPermissionGranted(grantResults)) {
+                if (isSelectPictureClicked) {
+                    selectPic();
+                }
+            } else {
+                try {
+                    PackageManager packageManager = getApplicationContext().getPackageManager();
+                    ApplicationInfo applicationInfo = null;
+                    applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
+                    String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
+                    new AlertDialog.Builder(this).setTitle("权限").setMessage("文件读取权限未开启，请在设置中开启" + applicationName + "文件读取权限").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    }).setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Uri packageURI = Uri.parse("package:" + getPackageName());
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).show();
+                } catch (Exception e) {
+
+                }
             }
-        } else {
-            Toast.makeText(this, "权限开启失败", Toast.LENGTH_LONG).show();
         }
     }
 
