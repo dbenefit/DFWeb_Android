@@ -43,7 +43,7 @@ public class TestActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mUrl = v.getText().toString().trim();
-                    DFManager.getSingleton().startDFWebPage(TestActivity.this, mUrl, null);
+                    DFManager.getSingleton().openWebPage(TestActivity.this, mUrl, null);
                 }
                 return false;
             }
@@ -51,13 +51,13 @@ public class TestActivity extends AppCompatActivity {
         tvGoWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().startDFWebPage(TestActivity.this, "file:///android_asset/test.html", null);
+                DFManager.getSingleton().openWebPage(TestActivity.this, "file:///android_asset/test.html", null);
             }
         });
         tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().startScan(TestActivity.this, new ResultCallBack() {
+                DFManager.getSingleton().openScan(TestActivity.this, new ResultCallBack() {
                     @Override
                     public void onResult(boolean success, boolean cancel, String result) {
                         if (result != null) {
@@ -70,13 +70,13 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.tv_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().startLocation(TestActivity.this, locationCallback);
+                DFManager.getSingleton().getLocation(TestActivity.this, locationCallback);
             }
         });
         findViewById(R.id.tv_location1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().startLocation(TestActivity.this, new LocationCallback() {
+                DFManager.getSingleton().getLocation(TestActivity.this, new LocationCallback() {
                     @Override
                     public void onSuccessLocationListener(GPSResponseBean gpsResponseBean) {
                         if (gpsResponseBean.getErrorCode() == -1) {

@@ -136,13 +136,19 @@ public class DFCaptureActivity extends CaptureActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             openUrlByBrowser(result);
+                            Intent intent = new Intent();
+                            intent.putExtra(CameraScan.SCAN_RESULT, result);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            finish();
+                            Intent intent = new Intent();
+                            intent.putExtra(CameraScan.SCAN_RESULT, result);
+                            setResult(RESULT_OK, intent);
+                            finish();
                         }
                     }).create().show();
 

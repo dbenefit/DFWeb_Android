@@ -2,7 +2,11 @@ package com.dongffl.dfweb.webivew.bean;
 
 
 import com.dongffl.dfweb.JsonHelper;
+import com.dongffl.dfweb.location.GPSResponseBean;
 import com.dongffl.dfweb.webivew.bean.busicess.JSResponseBean;
+import com.dongffl.dfweb.webivew.bean.busicess.ScanResultBean;
+
+import org.json.JSONObject;
 
 public class JSResponseBuilder {
 
@@ -32,11 +36,35 @@ public class JSResponseBuilder {
         return this;
     }
 
-    public String buildResponse()
-    {
-        return  JsonHelper.toJSON(response).toString();
+    public String buildResponse() {
+        try {
+            if (response.getData() instanceof GPSResponseBean) {
+                GPSResponseBean gpsResponseBean = (GPSResponseBean) response.getData();
+                JSONObject gpsResponseJsonObject = new JSONObject();
+                gpsResponseJsonObject.put("latitude", gpsResponseBean.getLatitude());
+                gpsResponseJsonObject.put("longitude", gpsResponseBean.getLongitude());
+                gpsResponseJsonObject.put("address", gpsResponseBean.getAddress());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("msg", response.getMsg());
+                jsonObject.put("data", gpsResponseJsonObject);
+                jsonObject.put("code", response.getCode());
+                return jsonObject.toString();
+            }
+            if (response.getData() instanceof ScanResultBean) {
+                ScanResultBean scanResultBean = (ScanResultBean) response.getData();
+                JSONObject gpsResponseJsonObject = new JSONObject();
+                gpsResponseJsonObject.put("resultUrl", scanResultBean.getResultUrl());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("msg", response.getMsg());
+                jsonObject.put("data", gpsResponseJsonObject);
+                jsonObject.put("code", response.getCode());
+                return jsonObject.toString();
+            }
 
-//        return new Gson().toJson(response);
+        } catch (Exception e) {
+
+        }
+        return "";
     }
 
     public String buildNormalFailed(String callTag) {
@@ -48,7 +76,8 @@ public class JSResponseBuilder {
 
     public String buildNormalSuccess(String callTag) {
         response.setCallbackTag(callTag);
-        response.setMsg("success");
+        response.setMsg("su\n" +
+                "02/28 19:10:37: Launching 'app' on OnePlus KB2000.ccess");
         response.setCode(JSResponseCode.SUCCESS.getCode());
         return JsonHelper.toJSON(response).toString();
     }

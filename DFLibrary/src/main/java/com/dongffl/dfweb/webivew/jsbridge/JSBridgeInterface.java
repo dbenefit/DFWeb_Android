@@ -1,6 +1,7 @@
 package com.dongffl.dfweb.webivew.jsbridge;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -59,6 +60,7 @@ public class JSBridgeInterface {
                         handler.doWhat(mContext.get(), new JSHandlerCallback() {
                             @Override
                             public void endWord(String result) {
+                                Log.d("aaaaaaa", "endWord: "+result);
                                 handCallback(callBack, result);
                             }
                         }, finalParams,finalCallTag);

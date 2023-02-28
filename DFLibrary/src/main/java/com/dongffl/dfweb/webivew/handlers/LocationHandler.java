@@ -12,7 +12,7 @@ public class LocationHandler implements JSBridgeHandler {
     @Override
     public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
         JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
-        DFManager.getSingleton().startLocation(activity, new LocationCallback() {
+        DFManager.getSingleton().getLocation(activity, new LocationCallback() {
             @Override
             public void onSuccessLocationListener(GPSResponseBean gpsResponseBean) {
                 if (gpsResponseBean.getErrorCode() != -1) {

@@ -26,19 +26,14 @@ public class JsonHelper {
      * @return Map对象
      */
     public static Map toMap(Object javaBean) {
-
         Map result = new HashMap();
         Method[] methods = javaBean.getClass().getDeclaredMethods();
-
         for (Method method : methods) {
-
             try {
                 if (method.getName().startsWith("get")) {
-
                     String field = method.getName();
                     field = field.substring(field.indexOf("get") + 3);
                     field = field.toLowerCase().charAt(0) + field.substring(1);
-
                     Object value = method.invoke(javaBean, (Object[]) null);
                     result.put(field, null == value ? "" : value.toString());
 

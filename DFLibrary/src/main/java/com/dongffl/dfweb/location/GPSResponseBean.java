@@ -72,23 +72,6 @@ public class GPSResponseBean {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "GPSResponseBean{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", cityCode='" + cityCode + '\'' +
-                ", address='" + address + '\'' +
-                ", country='" + country + '\'' +
-                ", poiName='" + poiName + '\'' +
-                ", street='" + street + '\'' +
-                ", errorCode=" + errorCode +
-                ", errorInfo='" + errorInfo + '\'' +
-                '}';
-    }
-
     public String getCountry() {
         return country;
     }

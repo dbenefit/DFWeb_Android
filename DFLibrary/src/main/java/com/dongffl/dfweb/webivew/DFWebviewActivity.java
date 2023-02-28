@@ -2,15 +2,19 @@ package com.dongffl.dfweb.webivew;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
@@ -89,9 +93,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         dfWebView.setWebViewClient(new DFWebviewClient());
 
         CookieManager cookieManager = CookieManager.getInstance();
-        for (String key : DFManager.getSingleton().getCookieMap().keySet()) {
-            cookieManager.setCookie(key, DFManager.getSingleton().getCookieMap().get(key));
-        }
+
         cookieManager.flush();
     }
 
@@ -139,7 +141,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setDefaultTextEncodingName("UTF-8");
         settings.setDatabaseEnabled(true);
         settings.setNeedInitialFocus(true);
-        settings.setUserAgentString(settings.getUserAgentString() +"-BFD-APP"+"-MAX-APP"+ DFManager.getSingleton().getUserAgentString());
+        settings.setUserAgentString(settings.getUserAgentString() + "-BFD-APP" + "-MAX-APP" + DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
@@ -178,6 +180,31 @@ public class DFWebviewActivity extends AppCompatActivity {
             } else {
                 chooseFile();
             }
+        } else {
+            if (mFilePathCallback != null) {
+                mFilePathCallback.onReceiveValue(new Uri[]{});
+            }
+            try {
+                PackageManager packageManager = getApplicationContext().getPackageManager();
+                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
+                String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
+                new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "需要您的文件读写权限，相机权限,请允许").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Uri packageURI = Uri.parse("package:" + getPackageName());
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                        startActivity(intent);
+                    }
+                }).show();
+            } catch (PackageManager.NameNotFoundException e) {
+
+            }
         }
     }
 
@@ -206,7 +233,9 @@ public class DFWebviewActivity extends AppCompatActivity {
         permissionCheck += this.checkSelfPermission(mFilePermissions[1]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
         permissionCheck += this.checkSelfPermission(mFilePermissions[2]);    //允许一个程序访问CellID或WiFi热点来获取粗略的位置
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+
             requestPermissions(mFilePermissions, 100);
+
         } else {
             if (mFileType == FileType.VIDEO) {
                 chooseVideoFile();
@@ -239,7 +268,7 @@ public class DFWebviewActivity extends AppCompatActivity {
             return;
         }
         if (requestCode == REQUEST_TAKE_PHOTOES && data != null && resultCode == RESULT_OK) {
-            Uri[] uris = new Uri[]{ data.getData()};
+            Uri[] uris = new Uri[]{data.getData()};
             mFilePathCallback.onReceiveValue(uris);
             return;
         }
@@ -248,7 +277,7 @@ public class DFWebviewActivity extends AppCompatActivity {
             return;
         }
         if (requestCode == REQUEST_TAKE_VIDEO && data != null && resultCode == RESULT_OK) {
-              mFilePathCallback.onReceiveValue(new Uri[]{data.getData()});
+            mFilePathCallback.onReceiveValue(new Uri[]{data.getData()});
         }
     }
 }
