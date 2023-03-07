@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <EditText
+        android:id="@+id/edit_UA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:hint="请设置UserAgent"  />
+
 
     <EditText
         android:id="@+id/edit_url"
@@ -24,10 +33,7 @@
         android:gravity="center"
         android:text="跳转webview"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/tv_Scan"
@@ -37,14 +43,9 @@
         android:layout_marginTop="20dp"
         android:background="#0000ff"
         android:gravity="center"
-
         android:text="扫码"
         android:textColor="@color/white"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+       />
 
     <TextView
         android:id="@+id/tv_location"
@@ -56,10 +57,7 @@
         android:gravity="center"
         android:text="定位-全局callback"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/tv_location1"
@@ -71,9 +69,13 @@
         android:gravity="center"
         android:text="定位-局部变量callback"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_location_content"
+    android:text="1111111"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    />
 </LinearLayout>

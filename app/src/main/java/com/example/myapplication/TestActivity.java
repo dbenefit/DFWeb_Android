@@ -16,8 +16,8 @@ import com.dongffl.dfweb.location.LocationCallback;
 import com.dongffl.dfweb.scan.callback.ResultCallBack;
 
 public class TestActivity extends AppCompatActivity {
-    EditText editText;
-    TextView tvScan, tvGoWebview;
+    EditText editText,editUA;
+    TextView tvScan, tvGoWebview,tvLocationContent;
     String mUrl = "https://aaronlianggq.github.io/web_sdk_demo.html";
     LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -26,6 +26,8 @@ public class TestActivity extends AppCompatActivity {
                 Toast.makeText(TestActivity.this, "" + gpsResponseBean.getErrorInfo(), Toast.LENGTH_SHORT).show();
                 return;
             }
+            tvLocationContent.setText("经度   "+gpsResponseBean.getLongitude() +"\n纬度     "+ gpsResponseBean.getLatitude() +"\n地址   "+gpsResponseBean.getAddress());
+
             Toast.makeText(TestActivity.this, "" + gpsResponseBean.getAddress(), Toast.LENGTH_SHORT).show();
 
         }
@@ -36,8 +38,11 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = findViewById(R.id.edit_url);
+        editUA = findViewById(R.id.edit_UA);
         tvGoWebview = findViewById(R.id.tv_goWebview);
         tvScan = findViewById(R.id.tv_Scan);
+        tvScan = findViewById(R.id.tv_Scan);
+        tvLocationContent = findViewById(R.id.tv_location_content);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -48,10 +53,20 @@ public class TestActivity extends AppCompatActivity {
                 return false;
             }
         });
+        editUA.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    DFManager.getSingleton().setUserAgentFlag( v.getText().toString().trim());
+                }
+                return false;
+            }
+        });
         tvGoWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().openWebPage(TestActivity.this, "file:///android_asset/test.html", null);
+                DFManager.getSingleton().setUserAgentFlag( editUA.getText().toString().trim());
+                DFManager.getSingleton().openWebPage(TestActivity.this, mUrl, null);
             }
         });
         tvScan.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +98,7 @@ public class TestActivity extends AppCompatActivity {
                             Toast.makeText(TestActivity.this, "" + gpsResponseBean.getErrorInfo(), Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        tvLocationContent.setText("经度   "+gpsResponseBean.getLongitude() +"\n纬度     "+ gpsResponseBean.getLatitude() +"\n地址   "+gpsResponseBean.getAddress());
                         Toast.makeText(TestActivity.this, "" + gpsResponseBean.getAddress(), Toast.LENGTH_SHORT).show();
                     }
                 });

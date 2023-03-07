@@ -123,7 +123,7 @@ public class DFWebviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (dfWebView.canGoBack()) {
+        if (dfWebView != null && dfWebView.canGoBack()) {
             dfWebView.goBack();
         } else {
             finish();
@@ -141,7 +141,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setDefaultTextEncodingName("UTF-8");
         settings.setDatabaseEnabled(true);
         settings.setNeedInitialFocus(true);
-        settings.setUserAgentString(settings.getUserAgentString() + "-BFD-APP" + "-MAX-APP" + DFManager.getSingleton().getUserAgentString());
+        settings.setUserAgentString(settings.getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
@@ -188,7 +188,7 @@ public class DFWebviewActivity extends AppCompatActivity {
                 PackageManager packageManager = getApplicationContext().getPackageManager();
                 ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
                 String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
-                new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "程序没有权限访问相机,请在设置中允许"+applicationName+"访问相机 ").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setTitle("权限").setMessage(applicationName + "程序没有权限访问相机,请在设置中允许" + applicationName + "访问相机 ").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -202,8 +202,8 @@ public class DFWebviewActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }).show();
-            } catch (PackageManager.NameNotFoundException e) {
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

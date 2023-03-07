@@ -53,25 +53,27 @@ public class LocationActivity extends AppCompatActivity {
             ApplicationInfo applicationInfo = null;
             try {
                 applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
-            } catch (PackageManager.NameNotFoundException e) {
+
+                String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
+                new AlertDialog.Builder(this).setTitle("权限").setMessage("定位权限未开启，请在设置中开启" + applicationName + "定位权限").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Uri packageURI = Uri.parse("package:" + getPackageName());
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            String applicationName = (String) packageManager.getApplicationLabel(applicationInfo);
-            new AlertDialog.Builder(this).setTitle("权限").setMessage("定位权限未开启，请在设置中开启"+applicationName+"定位权限").setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                }
-            }).setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    Uri packageURI = Uri.parse("package:" + getPackageName());
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                    startActivity(intent);
-                    finish();
-                }
-            }).show();
         }
     }
 }

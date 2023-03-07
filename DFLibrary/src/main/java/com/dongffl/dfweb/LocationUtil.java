@@ -188,96 +188,6 @@ public class LocationUtil {
         NetworkInfo info = getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
-
-    /**
-     * 开始定位 持续定位
-     *
-     * @param
-     */
-//    public void startLocationUpdates(LocationCallback listener) {
-//        this.listener = listener;
-//        endlistenerFlag = false;
-//
-//        if (null == locationManager) {
-//            Log.d(TAG, "locationManager=null return");
-//            return;
-//        }
-//
-//        //获取当前网络状态
-//        boolean networkState = isConnected();
-//
-//        if (!networkState) {
-//            Log.d(TAG, "无网络 return");
-//            return;
-//        }
-//
-//        //检查权限
-//        boolean permission = checkPermission();
-//        if (!permission) {
-//            Log.d(TAG, "定位权限未开启 return");
-//            return;
-//        }
-//
-//        String provider = LocationManager.NETWORK_PROVIDER;
-//        Log.d(TAG, "provider:" + provider);
-//
-//        //判断provider是否可用
-//        boolean providerEnabled = locationManager.isProviderEnabled(provider);
-//        if (!providerEnabled) {
-//            Log.d(TAG, provider + " 不可用 return");
-//            return;
-//        }
-//
-//        //获取缓存中的位置信息getLastKnownLocation
-//        Location location = locationManager.getLastKnownLocation(provider);
-//        if (null != location) {
-//            String locationAddr = getLocationAddr(location.getLongitude(), location.getLatitude());
-//            Log.d(TAG, "缓存中的位置信息location:" + location.toString());
-//            Log.d(TAG, "缓存中的位置信息locationAddr:" + locationAddr);
-//            //清除定位信息
-//            location.reset();
-//        }
-//
-////        Criteria crite = new Criteria();
-////        crite.setAccuracy(Criteria.ACCURACY_FINE); //精度
-////        crite.setPowerRequirement(Criteria.POWER_LOW); //功耗类型选择
-////        String provider = locationManager.getBestProvider(crite, true);
-//
-////        String networkProvider = LocationManager.NETWORK_PROVIDER;
-////        String gpsProvider = LocationManager.GPS_PROVIDER;
-////        String passiveProvider = LocationManager.PASSIVE_PROVIDER;
-//
-//        //添加地理围栏
-////        locationManager.addProximityAlert(38.234, 114.234, 5, -1, PendingIntent.getBroadcast(this, 1, new Intent(), 3));
-////        可以设置一个区域，当进入或离开这个区域的时候会收到通知，前两个参数指定一个点，第三个参数是半径，第四个参数是超时时间，设置为-1表示不存在超时，最后一个是广播接收器。
-////        触发的Intent将使用键KEY_PROXIMITY_ENTERING，如果值为true，则设备进入邻近区域，如果是false，说明设备离开该区域。
-//
-//        //持续定位：
-//        //绑定监听，有4个参数
-//        //参数1，设备：有GPS_PROVIDER、NETWORK_PROVIDER、PASSIVE_PROVIDER  三种
-//        //参数2，位置信息更新周期，单位毫秒
-//        //参数3，位置变化最小距离：当位置距离变化超过此值时，将更新位置信息
-//        //参数4，监听
-//        //备注：参数2和3，如果参数3不为0，则以参数3为准；参数3为0，则通过时间来定时更新；两者为0，则随时刷新
-//        // 1分钟更新一次，或最小位移变化超过1米更新一次；
-//        locationManager.requestLocationUpdates(provider, 60 * 1000, 0, locationListener, handler.getLooper());
-//
-//        //超时结束定位
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                locationManager.removeUpdates(locationListener);
-//                handler.removeCallbacks(this);
-//                if (!endlistenerFlag) {
-//
-//                    GPSResponseBean gpsResponseBean = new GPSResponseBean();
-//                    gpsResponseBean.setErrorInfo("定位超时");
-//                    gpsResponseBean.setErrorCode(-1);
-//                    listener.onSuccessLocationListener(gpsResponseBean);
-//                }
-//            }
-//        }, TIME_OUT);
-//    }
     public static String formatDate(Date date, String pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(date);
@@ -431,12 +341,10 @@ public class LocationUtil {
             //根据经纬度返回对应的地理位置信息，参数maxResults表示返回地址的数目，建议使用1-5；
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses.size() == 0) {
-                Log.d(TAG, "addresses.size() == 0 return");
                 return "";
             }
             Address address = addresses.get(0);
             if (null == address) {
-                Log.d(TAG, "null == address return");
                 return "";
             }
 
@@ -445,7 +353,6 @@ public class LocationUtil {
             //循环打印周围位置地址
             for (int i = 0; i < maxAddressLineIndex; i++) {
                 String addressStr = address.getAddressLine(i);
-                Log.d(TAG, i + " addressStr:" + addressStr);
             }
 
             StringBuilder addressBuilder = new StringBuilder();
@@ -457,7 +364,6 @@ public class LocationUtil {
             if (null != addressLine1) {
                 addressBuilder.append("靠近").append(addressLine1);
             }
-            Log.d(TAG, "addressBuilder:" + addressBuilder);
             return addressBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
