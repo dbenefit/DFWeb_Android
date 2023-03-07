@@ -9,7 +9,7 @@
 
 
     <!-- 目标 Activity 透明样式 -->
-    <style name="AppTheme.TranslucentTheme">
+    <style name="AppTheme.TranslucentTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">#00000000</item>
     </style>

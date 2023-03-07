@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +41,7 @@ public class LocationUtil {
 
     private volatile static LocationUtil locationUtil = null;
     private final String TAG = "LocationManagerUtil";
-    private  Context mContext;
+    private Context mContext;
     ;
     private LocationManager locationManager;
     private ArrayList<LocationCallback> listeners = new ArrayList<>();
@@ -68,11 +70,12 @@ public class LocationUtil {
         }
         return locationUtil;
     }
+
     public void removeLocationCallback(LocationCallback locationCallback) {
         listeners.remove(locationCallback);
     }
 
-    public void startLocationCheck(Context context,LocationCallback locationCallback){
+    public void startLocationCheck(Context context, LocationCallback locationCallback) {
         if (context == null) {
             new Throwable("DFSDK---  请设置上下文！").printStackTrace();
             return;
@@ -85,7 +88,7 @@ public class LocationUtil {
             new Throwable("DFSDK--- 请设置接口回调！").printStackTrace();
             return;
         }
-        this.mContext=context;
+        this.mContext = context;
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         if (context instanceof AppCompatActivity) {
@@ -96,6 +99,7 @@ public class LocationUtil {
             context.startActivity(intent);
         }
     }
+
     /**
      * 开始定位 单次定位
      *
@@ -109,53 +113,28 @@ public class LocationUtil {
             return;
         }
 
-        //获取当前网络状态
-        boolean networkState = isConnected();
-
-        if (!networkState) {
-            return;
-        }
-
         //检查权限
         boolean permission = checkPermission();
         if (!permission) {
             return;
         }
-
-        String provider = LocationManager.NETWORK_PROVIDER;
-
-        //判断provider是否可用
+        String provider = LocationManager.GPS_PROVIDER;
         boolean providerEnabled = locationManager.isProviderEnabled(provider);
         if (!providerEnabled) {
+            Toast.makeText(mContext, "GPS未打开!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        String bestProvider = locationManager.getBestProvider(getCriteria(), true);
+        // 获取位置信息
+        // 如果不设置查询要求，getLastKnownLocation方法传人的参数为LocationManager.GPS_PROVIDER
+        Location location = locationManager.getLastKnownLocation(bestProvider);
         //获取缓存中的位置信息getLastKnownLocation
-        Location location = locationManager.getLastKnownLocation(provider);
         if (null != location) {
             String locationAddr = getLocationAddr(location.getLongitude(), location.getLatitude());
             location.reset();
         }
-
-//        getWifi();
-//        getTelephonyManager();
-//        Criteria crite = new Criteria();
-//        crite.setAccuracy(Criteria.ACCURACY_FINE); //精度
-//        crite.setPowerRequirement(Criteria.POWER_LOW); //功耗类型选择
-//        String provider = locationManager.getBestProvider(crite, true);
-//
-//        String networkProvider = LocationManager.NETWORK_PROVIDER;
-        String gpsProvider = LocationManager.GPS_PROVIDER;
-        String passiveProvider = LocationManager.PASSIVE_PROVIDER;
-
-        //添加地理围栏
-//        locationManager.addProximityAlert(38.234, 114.234, 5, -1, PendingIntent.getBroadcast(this, 1, new Intent(), 3));
-//        可以设置一个区域，当进入或离开这个区域的时候会收到通知，前两个参数指定一个点，第三个参数是半径，第四个参数是超时时间，设置为-1表示不存在超时，最后一个是广播接收器。
-//        触发的Intent将使用键KEY_PROXIMITY_ENTERING，如果值为true，则设备进入邻近区域，如果是false，说明设备离开该区域。
-
         //获取一次定位结果requestSingleUpdate  单次定位
-        locationManager.requestSingleUpdate(provider, locationListener, handler.getLooper());
-
+        locationManager.requestSingleUpdate(bestProvider, locationListener, handler.getLooper());
         //超时结束定位
         handler.postDelayed(new Runnable() {
             @Override
@@ -165,7 +144,6 @@ public class LocationUtil {
                 if (!endlistenerFlag) {
                     GPSResponseBean gpsResponseBean = new GPSResponseBean();
                     gpsResponseBean.setErrorInfo("定位超时");
-                    
                     gpsResponseBean.setErrorCode(-1);
                     for (int i = 0; i < listeners.size(); i++) {
                         listeners.get(i).onSuccessLocationListener(gpsResponseBean);
@@ -176,18 +154,32 @@ public class LocationUtil {
         }, TIME_OUT);
     }
 
+    private Criteria getCriteria() {
+        Criteria criteria = new Criteria();
+// 设置定位精确度 Criteria.ACCURACY_COARSE比较粗略，Criteria.ACCURACY_FINE则比较精细
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+// 设置是否要求速度
+        criteria.setSpeedRequired(false);
+// 设置是否允许运营商收费
+        criteria.setCostAllowed(false);
+// 设置是否需要方位信息
+        criteria.setBearingRequired(false);
+// 设置是否需要海拔信息
+        criteria.setAltitudeRequired(false);
+// 设置对电源的需求
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        return criteria;
+    }
+
+
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private   NetworkInfo getActiveNetworkInfo() {
+    private NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager cm =
                 (ConnectivityManager) this.mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) return null;
         return cm.getActiveNetworkInfo();
     }
 
-    public  boolean isConnected() {
-        NetworkInfo info = getActiveNetworkInfo();
-        return info != null && info.isConnected();
-    }
     public static String formatDate(Date date, String pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(date);
@@ -216,14 +208,14 @@ public class LocationUtil {
             String time = formatDateTime(new Date(location.getTime()));
             final double longitude = location.getLongitude();
             final double latitude = location.getLatitude();
-            double altitude = location.getAltitude();
-            double longitudeGd = location.getLongitude() + 0.0052719116;//经度 系统定位相对于高德定位坐标相差0.0052719116
-            double latitudeGd = location.getLatitude() + 0.0010604858;//纬度 系统定位相对于高德定位坐标相差0.0010604858
+//            double altitude = location.getAltitude();
+//            double longitudeGd = location.getLongitude() + 0.0052719116;//经度 系统定位相对于高德定位坐标相差0.0052719116
+//            double latitudeGd = location.getLatitude() + 0.0010604858;//纬度 系统定位相对于高德定位坐标相差0.0010604858
 
             //获取地理位置
             String locationAddr = getLocationAddr(longitude, latitude);
             //获取高德经纬度地址
-            String locationAddrGd = getLocationAddr(longitudeGd, latitudeGd);
+//            String locationAddrGd = getLocationAddr(longitudeGd, latitudeGd);
             if (TextUtils.isEmpty(locationAddr)) {
                 //失败回调
                 GPSResponseBean gpsResponseBean = new GPSResponseBean();
@@ -240,7 +232,8 @@ public class LocationUtil {
                 gpsResponseBean.setAddress(locationAddr);
                 for (int i = 0; i < listeners.size(); i++) {
                     listeners.get(i).onSuccessLocationListener(gpsResponseBean);
-                }            }
+                }
+            }
         }
 
         /**
@@ -301,6 +294,7 @@ public class LocationUtil {
         }
         return true;
     }
+
     /**
      * 获取地理位置
      *

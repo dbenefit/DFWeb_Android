@@ -1,7 +1,6 @@
 package com.dongffl.dfweb.webivew.bean;
 
 
-import com.dongffl.dfweb.JsonHelper;
 import com.dongffl.dfweb.location.GPSResponseBean;
 import com.dongffl.dfweb.webivew.bean.busicess.JSResponseBean;
 import com.dongffl.dfweb.webivew.bean.busicess.ScanResultBean;
@@ -67,25 +66,25 @@ public class JSResponseBuilder {
         return "";
     }
 
-    public String buildNormalFailed(String callTag) {
-        response.setCallbackTag(callTag);
-        response.setMsg("failed");
-        response.setCode(JSResponseCode.FAILED.getCode());
-        return JsonHelper.toJSON(response).toString();
-    }
-
-    public String buildNormalSuccess(String callTag) {
-        response.setCallbackTag(callTag);
-        response.setMsg("su\n" +
-                "02/28 19:10:37: Launching 'app' on OnePlus KB2000.ccess");
-        response.setCode(JSResponseCode.SUCCESS.getCode());
-        return JsonHelper.toJSON(response).toString();
-    }
-
-    public String buildParamError(String callTag) {
-        response.setCallbackTag(callTag);
-        response.setMsg("failed");
-        response.setCode(JSResponseCode.ERROR_FORMAT.getCode());
-        return JsonHelper.toJSON(response).toString();
-    }
+//    public String buildNormalFailed(String callTag) {
+//        response.setCallbackTag(callTag);
+//        response.setMsg("failed");
+//        response.setCode(JSResponseCode.FAILED.getCode());
+//        return JsonHelper.toJSON(response).toString();
+//    }
+//
+//    public String buildNormalSuccess(String callTag) {
+//        response.setCallbackTag(callTag);
+//        response.setMsg("su\n" +
+//                "02/28 19:10:37: Launching 'app' on OnePlus KB2000.ccess");
+//        response.setCode(JSResponseCode.SUCCESS.getCode());
+//        return JsonHelper.toJSON(response).toString();
+//    }
+//
+//    public String buildParamError(String callTag) {
+//        response.setCallbackTag(callTag);
+//        response.setMsg("failed");
+//        response.setCode(JSResponseCode.ERROR_FORMAT.getCode());
+//        return JsonHelper.toJSON(response).toString();
+//    }
 }
