@@ -44,6 +44,7 @@ public class JSResponseBuilder {
                 gpsResponseJsonObject.put("longitude", gpsResponseBean.getLongitude());
                 gpsResponseJsonObject.put("address", gpsResponseBean.getAddress());
                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("callbackTag", response.getCallbackTag());
                 jsonObject.put("msg", response.getMsg());
                 jsonObject.put("data", gpsResponseJsonObject);
                 jsonObject.put("code", response.getCode());
@@ -54,6 +55,7 @@ public class JSResponseBuilder {
                 JSONObject gpsResponseJsonObject = new JSONObject();
                 gpsResponseJsonObject.put("resultUrl", scanResultBean.getResultUrl());
                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("callbackTag", response.getCallbackTag());
                 jsonObject.put("msg", response.getMsg());
                 jsonObject.put("data", gpsResponseJsonObject);
                 jsonObject.put("code", response.getCode());

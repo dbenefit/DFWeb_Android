@@ -60,7 +60,6 @@ public class JSBridgeInterface {
                         handler.doWhat(mContext.get(), new JSHandlerCallback() {
                             @Override
                             public void endWord(String result) {
-                                Log.d("aaaaaaa", "endWord: "+result);
                                 handCallback(callBack, result);
                             }
                         }, finalParams,finalCallTag);

@@ -133,29 +133,33 @@ public class DFCaptureActivity extends CaptureActivity {
                         || result.startsWith("ftp")
                 )
         ) {
-            new AlertDialog.Builder(this).setTitle("可能存在风险，是否打开链接？")
-                    .setPositiveButton("打开", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            openUrlByBrowser(result);
-                            Intent intent = new Intent();
-                            intent.putExtra(CameraScan.SCAN_RESULT, result);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent();
-                            intent.putExtra(CameraScan.SCAN_RESULT, result);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-                    }).create().show();
-
-
-            return;
+            Intent intent = new Intent();
+            intent.putExtra(CameraScan.SCAN_RESULT, result);
+            setResult(RESULT_OK, intent);
+            finish();
+//            new AlertDialog.Builder(this).setTitle("可能存在风险，是否打开链接？")
+//                    .setPositiveButton("打开", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            openUrlByBrowser(result);
+//                            Intent intent = new Intent();
+//                            intent.putExtra(CameraScan.SCAN_RESULT, result);
+//                            setResult(RESULT_OK, intent);
+//                            finish();
+//                        }
+//                    })
+//                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent intent = new Intent();
+//                            intent.putExtra(CameraScan.SCAN_RESULT, result);
+//                            setResult(RESULT_OK, intent);
+//                            finish();
+//                        }
+//                    }).create().show();
+//
+//
+//            return;
         }
         //
         if (result.toUpperCase().contains("DFC") || result.contains("dfc")) {
