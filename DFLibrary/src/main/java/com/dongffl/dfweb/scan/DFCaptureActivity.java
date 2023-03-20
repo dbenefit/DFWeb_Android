@@ -6,17 +6,21 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.FileUtils;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.camera.core.internal.utils.ImageUtil;
 
 import com.dongffl.dfweb.PathUtils;
 import com.dongffl.dfweb.scan.litezxing.CameraScan;
@@ -30,6 +34,13 @@ import com.example.dflibrary.R;
 import com.google.zxing.Result;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class DFCaptureActivity extends CaptureActivity {
@@ -271,9 +282,49 @@ public class DFCaptureActivity extends CaptureActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTOES && data != null && resultCode == RESULT_OK) {
+//            String fold =  getCacheDir().getPath() + "/dfwebsdk";
+            String desPath = getExternalFilesDir("dfwebsdk").getAbsolutePath() + "/" + System.currentTimeMillis() + ".png";
+            copyImage(data.getData(),desPath);
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(PathUtils.getPath(this, data.getData()));
+            arrayList.add(desPath);
             handleSelectImgs(arrayList);
+        }
+    }
+
+    public void copyImage(Uri sourceUri ,String desPath) {
+        File file = new File(desPath);
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = getContentResolver()
+                    .openInputStream(sourceUri);
+
+            FileOutputStream fileOutputStream = new FileOutputStream(
+                    new File(desPath));
+            copyStream(inputStream, fileOutputStream);
+            fileOutputStream.close();
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void copyStream(InputStream input, OutputStream output)
+            throws IOException {
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
         }
     }
 }
