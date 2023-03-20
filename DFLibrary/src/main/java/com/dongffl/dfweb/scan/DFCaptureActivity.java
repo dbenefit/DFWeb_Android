@@ -307,7 +307,7 @@ public class DFCaptureActivity extends CaptureActivity {
                     .openInputStream(sourceUri);
 
             FileOutputStream fileOutputStream = new FileOutputStream(
-                    new File(desPath));
+                    desPath);
             copyStream(inputStream, fileOutputStream);
             fileOutputStream.close();
             inputStream.close();
