@@ -1,10 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'maven-publish'
-
 }
-group = 'com.dongffl.dbenefit'
-version = "1.0.0"
+//group = 'com.dongffl.dbenefit'
+//version = "1.0.0"
 android {
     compileSdk 32
 
@@ -37,9 +36,9 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 // 这里头是artifacts的配置信息，不填会采用默认的
-                groupId = 'com.github.dbenefit'
-                artifactId = 'DFLibrary'
-                version = '1.0.0'
+//                groupId = 'com.github.dbenefit'
+//                artifactId = 'DFLibrary'
+//                version = '1.0.0'
             }
         }
     }

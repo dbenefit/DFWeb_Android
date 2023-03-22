@@ -51,12 +51,15 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation project(':DFLibrary')
 //    implementation 'com.github.dbenefit:dfwebsdk:0.0.2'
 //    implementation 'com.github.dbenefit:DFWeb_Android:v0.0.3'
+//    implementation files('libs/DFLibrary-release.aar')
+//    implementation(name: 'DFLibrary-release', ext: 'aar')
 
 }
 
