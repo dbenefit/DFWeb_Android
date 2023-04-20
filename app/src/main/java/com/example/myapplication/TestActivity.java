@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,8 +17,8 @@ import com.dongffl.dfweb.location.LocationCallback;
 import com.dongffl.dfweb.scan.callback.ResultCallBack;
 
 public class TestActivity extends AppCompatActivity {
-    EditText editText,editUA;
-    TextView tvScan, tvGoWebview,tvLocationContent;
+    EditText editText, editUA;
+    TextView tvScan, tvGoWebview, tvLocationContent,tvOpenFragmentWebview;
     String mUrl = "https://aaronlianggq.github.io/web_sdk_demo.html";
     LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -26,7 +27,7 @@ public class TestActivity extends AppCompatActivity {
                 Toast.makeText(TestActivity.this, "" + gpsResponseBean.getErrorInfo(), Toast.LENGTH_SHORT).show();
                 return;
             }
-            tvLocationContent.setText("经度   "+gpsResponseBean.getLongitude() +"\n纬度     "+ gpsResponseBean.getLatitude() +"\n地址   "+gpsResponseBean.getAddress());
+            tvLocationContent.setText("经度   " + gpsResponseBean.getLongitude() + "\n纬度     " + gpsResponseBean.getLatitude() + "\n地址   " + gpsResponseBean.getAddress());
 
             Toast.makeText(TestActivity.this, "" + gpsResponseBean.getAddress(), Toast.LENGTH_SHORT).show();
 
@@ -38,6 +39,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = findViewById(R.id.edit_url);
+        tvOpenFragmentWebview = findViewById(R.id.tv_openFragment);
         editUA = findViewById(R.id.edit_UA);
         tvGoWebview = findViewById(R.id.tv_goWebview);
         tvScan = findViewById(R.id.tv_Scan);
@@ -48,16 +50,24 @@ public class TestActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mUrl = v.getText().toString().trim();
-                    DFManager.getSingleton().openWebPage(TestActivity.this, mUrl, null);
+                    Intent intent = new Intent(TestActivity.this,WebviewActivity.class);
+                    intent.putExtra("url", mUrl);
+                    startActivity(intent);
                 }
                 return false;
+            }
+        });
+        tvOpenFragmentWebview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TestActivity.this,MainActivity.class));
             }
         });
         editUA.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    DFManager.getSingleton().setUserAgentFlag( v.getText().toString().trim());
+                    DFManager.getSingleton().setUserAgentFlag(v.getText().toString().trim());
                 }
                 return false;
             }
@@ -65,8 +75,9 @@ public class TestActivity extends AppCompatActivity {
         tvGoWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DFManager.getSingleton().setUserAgentFlag( editUA.getText().toString().trim());
-                DFManager.getSingleton().openWebPage(TestActivity.this, mUrl, null);
+                Intent intent = new Intent(TestActivity.this,WebviewActivity.class);
+                intent.putExtra("url", mUrl);
+                startActivity(intent);
             }
         });
         tvScan.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +109,7 @@ public class TestActivity extends AppCompatActivity {
                             Toast.makeText(TestActivity.this, "" + gpsResponseBean.getErrorInfo(), Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        tvLocationContent.setText("经度   "+gpsResponseBean.getLongitude() +"\n纬度     "+ gpsResponseBean.getLatitude() +"\n地址   "+gpsResponseBean.getAddress());
+                        tvLocationContent.setText("经度   " + gpsResponseBean.getLongitude() + "\n纬度     " + gpsResponseBean.getLatitude() + "\n地址   " + gpsResponseBean.getAddress());
                         Toast.makeText(TestActivity.this, "" + gpsResponseBean.getAddress(), Toast.LENGTH_SHORT).show();
                     }
                 });

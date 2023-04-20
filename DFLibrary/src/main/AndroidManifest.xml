@@ -20,9 +20,6 @@
             android:theme="@style/AppTheme.TranslucentTheme"
             android:exported="false" />
         <activity
-            android:name="com.dongffl.dfweb.webivew.DFWebviewActivity"
-            android:exported="false" />
-        <activity
             android:name="com.dongffl.dfweb.scan.DFCaptureActivity"
             android:exported="false" />
     </application>

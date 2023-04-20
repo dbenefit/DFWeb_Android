@@ -1,4 +1,4 @@
-package com.dongffl.dfweb.webivew;
+package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,31 +10,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dongffl.dfweb.DFManager;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
-import com.dongffl.dfweb.PathUtils;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
 import com.dongffl.dfweb.client.DFWebviewClient;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
-import com.example.dflibrary.R;
 
-import java.util.ArrayList;
-
-public class DFWebviewActivity extends AppCompatActivity {
-    DFWebview dfWebView;
+public class WebviewActivity extends AppCompatActivity {
+    WebView webView;
     String mUrl = "";
     TextView tvTitle;
     ImageView ivBack, ivFinish;
@@ -54,7 +49,7 @@ public class DFWebviewActivity extends AppCompatActivity {
         initWebviewSettings();
         initWebviewClient();
         initData();
-        dfWebView.loadUrl(mUrl);
+        webView.loadUrl(mUrl);
     }
 
 
@@ -63,16 +58,16 @@ public class DFWebviewActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        dfWebView = findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
         tvTitle = findViewById(R.id.title_tv);
         ivBack = findViewById(R.id.title_back);
         ivFinish = findViewById(R.id.title_finish);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dfWebView != null) {
-                    if (dfWebView.canGoBack()) {
-                        dfWebView.goBack();
+                if (webView != null) {
+                    if (webView.canGoBack()) {
+                        webView.goBack();
                     } else {
                         finish();
                     }
@@ -90,11 +85,7 @@ public class DFWebviewActivity extends AppCompatActivity {
     private void initWebviewClient() {
         DFWebviewChromeClient dfWebviewChromeClient = new DFWebviewChromeClient();
         register(dfWebviewChromeClient);
-        dfWebView.setWebViewClient(new DFWebviewClient());
-
-        CookieManager cookieManager = CookieManager.getInstance();
-
-        cookieManager.flush();
+        webView.setWebViewClient(new DFWebviewClient());
     }
 
     private void register(DFWebviewChromeClient dfWebviewChromeClient) {
@@ -112,7 +103,7 @@ public class DFWebviewActivity extends AppCompatActivity {
                 checkPermissions();
             }
         });
-        dfWebView.setWebChromeClient(dfWebviewChromeClient);
+        webView.setWebChromeClient(dfWebviewChromeClient);
     }
 
     public void setTitle(String title) {
@@ -123,15 +114,15 @@ public class DFWebviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (dfWebView != null && dfWebView.canGoBack()) {
-            dfWebView.goBack();
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
         } else {
             finish();
         }
     }
 
     private void initWebviewSettings() {
-        WebSettings settings = dfWebView.getSettings();
+        WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setAllowFileAccess(true);
@@ -141,7 +132,6 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setDefaultTextEncodingName("UTF-8");
         settings.setDatabaseEnabled(true);
         settings.setNeedInitialFocus(true);
-        settings.setUserAgentString(settings.getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
@@ -154,8 +144,9 @@ public class DFWebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-        JSBridgeInterface jsBridge = new JSBridgeInterface(DFWebviewActivity.this, dfWebView);
-        dfWebView.addJavascriptInterface(jsBridge, "android");
+        JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
+        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
+        webView.addJavascriptInterface(jsBridge, "android");
     }
 
     private boolean hasAllPermissionGranted(int[] grantResults) {
