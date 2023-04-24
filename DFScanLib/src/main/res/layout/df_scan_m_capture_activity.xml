@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.dffl.dfscanlib.litezxing.ViewfinderView
+        android:id="@+id/viewfinderView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <ImageView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="6dp"
+            android:id="@+id/iv_back"
+            android:padding="10dp"
+            android:src="@mipmap/dfsdk_res_back_icon"
+            android:layout_width="44dp"
+            android:layout_height="44dp"/>
+
+        <ImageView
+            android:layout_marginStart="44dp"
+            android:layout_marginBottom="44dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/ivFlashlight"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@mipmap/dfsdk_res_open_light" />
+
+        <ImageView
+            android:layout_marginEnd="44dp"
+            android:layout_marginBottom="44dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/iv_select_pic"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@mipmap/dfsdk_res_select_pic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

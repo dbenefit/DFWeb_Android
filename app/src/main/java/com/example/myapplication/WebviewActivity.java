@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -21,11 +22,15 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dongffl.dfweb.DFManager;
+import com.dffl.dfbaselibrary.DFManager;
+import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
+import com.dffl.dfbaselibrary.handlers.ScanHandler;
+import com.dffl.dfscanlib.handler.DfScanHandler;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
 import com.dongffl.dfweb.client.DFWebviewClient;
+import com.dffl.dfbaselibrary.location.DFLocationHandler;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 public class WebviewActivity extends AppCompatActivity {
@@ -144,6 +149,13 @@ public class WebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
+//        DFManager.getSingleton().registerScanHandler(new DfScanHandler());
+        DFManager.getSingleton().registerScanHandler(new ScanHandler() {
+            @Override
+            public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
+
+            }
+        });
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
         webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
         webView.addJavascriptInterface(jsBridge, "android");

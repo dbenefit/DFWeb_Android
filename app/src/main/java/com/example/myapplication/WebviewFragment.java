@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.dongffl.dfweb.DFManager;
+import com.dffl.dfbaselibrary.DFManager;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 /**

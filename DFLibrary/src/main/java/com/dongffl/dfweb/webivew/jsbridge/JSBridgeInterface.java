@@ -1,17 +1,17 @@
 package com.dongffl.dfweb.webivew.jsbridge;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.dongffl.dfweb.webivew.config.HandlerPathCollect;
-import com.dongffl.dfweb.webivew.config.JSConfigs;
-import com.dongffl.dfweb.webivew.handlers.HandlerFactory;
-import com.dongffl.dfweb.webivew.handlers.JSBridgeHandler;
-import com.dongffl.dfweb.webivew.handlers.JSHandlerCallback;
+
+import com.dffl.dfbaselibrary.config.HandlerPathCollect;
+import com.dffl.dfbaselibrary.config.JSConfigs;
+import com.dffl.dfbaselibrary.handlers.HandlerFactory;
+import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
 
 import org.json.JSONObject;
 
