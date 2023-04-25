@@ -1,11 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
@@ -22,15 +17,19 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dffl.dfbaselibrary.DFManager;
-import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
-import com.dffl.dfbaselibrary.handlers.ScanHandler;
-import com.dffl.dfscanlib.handler.DfScanHandler;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+
+import com.dffl.dfbaselibrary.plugin.DFJSBridgePlugin;
+import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
+import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
 import com.dongffl.dfweb.client.DFWebviewClient;
-import com.dffl.dfbaselibrary.location.DFLocationHandler;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 public class WebviewActivity extends AppCompatActivity {
@@ -149,15 +148,26 @@ public class WebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-//        DFManager.getSingleton().registerScanHandler(new DfScanHandler());
-        DFManager.getSingleton().registerScanHandler(new ScanHandler() {
+        DFPluginContainer.getSingleton().setScanPlugin(new DFJSBridgePlugin() {
             @Override
-            public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
-
+            public void implJsBridge(FragmentActivity activity, DFJsBridgePluginCallback call) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        if (success) {
+                            call.success("aaaaaa");
+//                        } else if (cancel) {
+//                            call.cancel();
+//                        } else {
+//                            call.failed();
+//                        }
+                    }
+                }, 1000);
             }
         });
+//        DFPluginContainer.getSingleton().setScanPlugin(new DFScanPlugin());
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
-        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
+        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-");
         webView.addJavascriptInterface(jsBridge, "android");
     }
 

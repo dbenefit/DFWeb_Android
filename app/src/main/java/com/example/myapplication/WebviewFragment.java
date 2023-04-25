@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.dffl.dfbaselibrary.DFManager;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 /**
@@ -102,7 +101,7 @@ public class WebviewFragment extends Fragment {
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
         JSBridgeInterface jsBridge = new JSBridgeInterface(getActivity(), webView);
-        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-" + DFManager.getSingleton().getUserAgentString());
+        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-" );
         webView.addJavascriptInterface(jsBridge, "android");
 
     }

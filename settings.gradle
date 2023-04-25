@@ -18,6 +18,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "My Application"
 include ':app'
-include ':DFLibrary'
+include ':DFWebLibrary'
 include ':DFBaselibrary'
 include ':DFScanLib'

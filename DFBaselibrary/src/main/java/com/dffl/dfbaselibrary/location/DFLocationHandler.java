@@ -9,7 +9,7 @@ import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
 import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
 public class DFLocationHandler implements JSBridgeHandler {
     @Override
-    public void doWhat(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
+    public void handle(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
         JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
         LocationUtil.getInstance().startLocationCheck(activity, new LocationCallback() {
             @Override
@@ -19,12 +19,12 @@ public class DFLocationHandler implements JSBridgeHandler {
                             .setCode(JSResponseCode.SUCCESS.getCode())
                             .setResponse(gpsResponseBean)
                             .setMessage("success");
-                    callback.endWord(jsResponseBuilder.buildResponse());
+                    callback.callJsBridgeResult(jsResponseBuilder.buildResponse());
                 } else {
                     jsResponseBuilder
                             .setCode(JSResponseCode.FAILED.getCode())
                             .setMessage("failed");
-                    callback.endWord(jsResponseBuilder.buildResponse());
+                    callback.callJsBridgeResult(jsResponseBuilder.buildResponse());
                 }
             }
         });

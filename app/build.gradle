@@ -55,10 +55,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    api project(':DFLibrary')
-    implementation project(':DFScanLib')
+    implementation project(':DFWebLibrary')
+//    implementation project(':DFScanLib')
     implementation 'com.google.android.material:material:1.4.+'
-    implementation 'com.google.zxing:core:1.0.0'
+//    implementation 'com.google.zxing:core:1.0.0'
 
 }
 

@@ -57,9 +57,9 @@ public class JSBridgeInterface {
                 mContext.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handler.doWhat(mContext.get(), new JSHandlerCallback() {
+                        handler.handle(mContext.get(), new JSHandlerCallback() {
                             @Override
-                            public void endWord(String result) {
+                            public void callJsBridgeResult(String result) {
                                 handCallback(callBack, result);
                             }
                         }, finalParams,finalCallTag);

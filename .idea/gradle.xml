@@ -11,8 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/DFBaselibrary" />
-            <option value="$PROJECT_DIR$/DFLibrary" />
             <option value="$PROJECT_DIR$/DFScanLib" />
+            <option value="$PROJECT_DIR$/DFWebLibrary" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
