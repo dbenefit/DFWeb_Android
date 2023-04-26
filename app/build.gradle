@@ -56,8 +56,10 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation project(':DFWebLibrary')
-//    implementation 'com.github.dbenefit.DFWeb_Android:DFWebLibrary:v0.0.6'
-//    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.0.6'
+
+//    implementation 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v0.0.8'
+//    implementation 'com.github.dbenefit.DFWeb_Android:DFWebLibrary:v0.0.8'
+    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.0.8'
 
     implementation project(':DFScanLib')
     implementation 'com.google.android.material:material:1.4.+'
