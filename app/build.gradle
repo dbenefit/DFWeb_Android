@@ -59,7 +59,7 @@ dependencies {
 
 //    implementation 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v0.0.8'
 //    implementation 'com.github.dbenefit.DFWeb_Android:DFWebLibrary:v0.0.8'
-    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.0.8'
+//    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.0.8'
 
     implementation project(':DFScanLib')
     implementation 'com.google.android.material:material:1.4.+'
