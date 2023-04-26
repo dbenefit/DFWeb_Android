@@ -1,12 +1,13 @@
-package com.dffl.dfbaselibrary.location;
+package com.dongffl.dfweb.location;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dfbaselibrary.bean.GPSResponseBean;
-import com.dffl.dfbaselibrary.bean.JSResponseBuilder;
-import com.dffl.dfbaselibrary.bean.JSResponseCode;
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
+import com.dongffl.dfweb.bean.GPSResponseBean;
+import com.dongffl.dfweb.bean.JSResponseBuilder;
+import com.dongffl.dfweb.bean.JSResponseCode;
+import com.dongffl.dfweb.handlers.JSBridgeHandler;
+import com.dongffl.dfweb.handlers.JSHandlerCallback;
+
 public class DFLocationHandler implements JSBridgeHandler {
     @Override
     public void handle(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {

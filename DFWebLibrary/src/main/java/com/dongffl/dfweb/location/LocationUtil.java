@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.location;
+package com.dongffl.dfweb.location;
 
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 
@@ -25,7 +25,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.dffl.dfbaselibrary.bean.GPSResponseBean;
+import com.dongffl.dfweb.bean.GPSResponseBean;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.bean;
+package com.dongffl.dfweb.bean;
 
 
 /**

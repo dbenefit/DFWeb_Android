@@ -56,9 +56,15 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation project(':DFWebLibrary')
-//    implementation project(':DFScanLib')
+//    implementation 'com.github.dbenefit.DFWeb_Android:DFWebLibrary:v0.0.6'
+//    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.0.6'
+
+    implementation project(':DFScanLib')
     implementation 'com.google.android.material:material:1.4.+'
     implementation 'com.google.zxing:core:3.5.0'
+    implementation 'com.qcloud.cos:avif:1.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
 }
 

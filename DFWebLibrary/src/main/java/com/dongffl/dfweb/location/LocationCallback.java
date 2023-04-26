@@ -1,6 +1,6 @@
-package com.dffl.dfbaselibrary.location;
+package com.dongffl.dfweb.location;
 
-import com.dffl.dfbaselibrary.bean.GPSResponseBean;
+import com.dongffl.dfweb.bean.GPSResponseBean;
 
 public interface LocationCallback {
    void   onSuccessLocationListener(GPSResponseBean gpsResponseBean);

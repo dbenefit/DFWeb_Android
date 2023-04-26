@@ -1,8 +1,8 @@
-package com.dffl.dfbaselibrary.bean;
+package com.dongffl.dfweb.bean;
 
 
-import com.dffl.dfbaselibrary.bean.busicess.JSResponseBean;
-import com.dffl.dfbaselibrary.bean.busicess.ScanResultBean;
+import com.dongffl.dfweb.bean.busicess.JSResponseBean;
+import com.dongffl.dfweb.bean.busicess.ScanResultBean;
 
 import org.json.JSONObject;
 

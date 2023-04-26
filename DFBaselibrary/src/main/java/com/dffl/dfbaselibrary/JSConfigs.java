@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.config;
+package com.dffl.dfbaselibrary;
 
 public interface JSConfigs {
 

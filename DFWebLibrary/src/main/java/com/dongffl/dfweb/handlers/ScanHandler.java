@@ -1,16 +1,15 @@
-package com.dffl.dfbaselibrary.handlers;
+package com.dongffl.dfweb.handlers;
 
 
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dfbaselibrary.bean.JSResponseBuilder;
-import com.dffl.dfbaselibrary.bean.JSResponseCode;
-import com.dffl.dfbaselibrary.bean.busicess.ScanResultBean;
-import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
+import com.dongffl.dfweb.bean.JSResponseBuilder;
+import com.dongffl.dfweb.bean.JSResponseCode;
+import com.dongffl.dfweb.bean.busicess.ScanResultBean;
 import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
+import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 
 public class ScanHandler implements JSBridgeHandler {
 

@@ -23,13 +23,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dfbaselibrary.plugin.DFJSBridgePlugin;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
-import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
+import com.dffl.dfscanlib.handler.DFScanPlugin;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
 import com.dongffl.dfweb.client.DFWebviewClient;
+import com.dffl.dfbaselibrary.plugin.DFJSBridgePlugin;
+import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
+import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 public class WebviewActivity extends AppCompatActivity {
@@ -165,7 +166,7 @@ public class WebviewActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-//        DFPluginContainer.getSingleton().setScanPlugin(new DFScanPlugin());
+        DFPluginContainer.getSingleton().setScanPlugin(new DFScanPlugin());
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
         webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-");
         webView.addJavascriptInterface(jsBridge, "android");

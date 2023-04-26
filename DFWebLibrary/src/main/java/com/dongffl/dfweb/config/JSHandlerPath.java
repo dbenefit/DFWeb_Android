@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.config;
+package com.dongffl.dfweb.config;
 
 public interface JSHandlerPath {
 

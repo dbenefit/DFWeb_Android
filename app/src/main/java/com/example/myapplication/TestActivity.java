@@ -6,13 +6,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 public class TestActivity extends AppCompatActivity {
     EditText editText, editUA;
-    TextView tvScan, tvGoWebview, tvLocationContent,tvOpenFragmentWebview;
+    TextView tvScan, tvGoWebview, tvLocationContent, tvOpenFragmentWebview;
     String mUrl = "https://aaronlianggq.github.io/web_sdk_demo.html";
 //    LocationCallback locationCallback = new LocationCallback() {
 //        @Override
@@ -32,6 +35,8 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Glide.with(this).load("https://dhfs-test-cpc.wanyol.com/2021/12/31/bc3f21e101db91fc4de53dcb18f034f1.jpg?x-oss-process=image/resize,m_fill,h_2340,w_1080/quality,Q_60/format,avif").into((ImageView) findViewById(R.id.image));
+        Glide.with(this).load("https://oss-scm-goods-prd.dongfangfuli.com/merchantSpuDocument/picture/8dbd8fec0bb14f50aaced83ea5bceb69.avif").into((ImageView) findViewById(R.id.image1));
         editText = findViewById(R.id.edit_url);
         tvOpenFragmentWebview = findViewById(R.id.tv_openFragment);
         editUA = findViewById(R.id.edit_UA);
@@ -44,7 +49,7 @@ public class TestActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mUrl = v.getText().toString().trim();
-                    Intent intent = new Intent(TestActivity.this,WebviewActivity.class);
+                    Intent intent = new Intent(TestActivity.this, WebviewActivity.class);
                     intent.putExtra("url", mUrl);
                     startActivity(intent);
                 }
@@ -54,7 +59,7 @@ public class TestActivity extends AppCompatActivity {
         tvOpenFragmentWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this,MainActivity.class));
+                startActivity(new Intent(TestActivity.this, MainActivity.class));
             }
         });
         editUA.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -69,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
         tvGoWebview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestActivity.this,WebviewActivity.class);
+                Intent intent = new Intent(TestActivity.this, WebviewActivity.class);
                 intent.putExtra("url", mUrl);
                 startActivity(intent);
             }

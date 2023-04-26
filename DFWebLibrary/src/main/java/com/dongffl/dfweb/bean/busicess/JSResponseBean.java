@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.bean.busicess;
+package com.dongffl.dfweb.bean.busicess;
 
 public class JSResponseBean<T> {
     int code=0;

@@ -1,6 +1,7 @@
 package com.dffl.dfbaselibrary.plugin;
 
-import com.dffl.dfbaselibrary.config.JSConfigs;
+
+import com.dffl.dfbaselibrary.JSConfigs;
 
 import java.util.HashMap;
 
@@ -9,7 +10,7 @@ public class DFPluginContainer {
     }
 
     public static DFPluginContainer getSingleton() {
-        return DFPluginContainer.Inner.instance;
+        return Inner.instance;
     }
 
     private static class Inner {

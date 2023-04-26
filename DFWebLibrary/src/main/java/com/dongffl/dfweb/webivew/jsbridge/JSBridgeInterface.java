@@ -7,11 +7,11 @@ import android.webkit.WebView;
 import androidx.fragment.app.FragmentActivity;
 
 
-import com.dffl.dfbaselibrary.config.HandlerPathCollect;
-import com.dffl.dfbaselibrary.config.JSConfigs;
-import com.dffl.dfbaselibrary.handlers.HandlerFactory;
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
+import com.dongffl.dfweb.config.HandlerPathCollect;
+import com.dffl.dfbaselibrary.JSConfigs;
+import com.dongffl.dfweb.handlers.HandlerFactory;
+import com.dongffl.dfweb.handlers.JSBridgeHandler;
+import com.dongffl.dfweb.handlers.JSHandlerCallback;
 
 import org.json.JSONObject;
 
