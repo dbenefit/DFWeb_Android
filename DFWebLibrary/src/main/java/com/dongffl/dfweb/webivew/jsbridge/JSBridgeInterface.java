@@ -6,9 +6,11 @@ import android.webkit.WebView;
 
 import androidx.fragment.app.FragmentActivity;
 
-
-import com.dongffl.dfweb.config.HandlerPathCollect;
 import com.dffl.dfbaselibrary.JSConfigs;
+import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
+import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
+import com.dffl.dfbaselibrary.plugin.DFPluginStyle;
+import com.dongffl.dfweb.config.HandlerPathCollect;
 import com.dongffl.dfweb.handlers.HandlerFactory;
 import com.dongffl.dfweb.handlers.JSBridgeHandler;
 import com.dongffl.dfweb.handlers.JSHandlerCallback;
@@ -23,21 +25,22 @@ public class JSBridgeInterface {
 
     ArrayList<String> mMethodNames = new ArrayList<>();
     HashMap<String, JSBridgeHandler> mHandler = new HashMap<>();
-    WeakReference<WebView> mWebView ;
-    WeakReference<FragmentActivity> mContext ;
+    WeakReference<WebView> mWebView;
+    WeakReference<FragmentActivity> mContext;
 
     public JSBridgeInterface(FragmentActivity ctx, WebView webView) {
         mContext = new WeakReference<>(ctx);
         mWebView = new WeakReference<>(webView);
         mMethodNames = HandlerPathCollect.collectAllJSMethodName();
     }
+
     @JavascriptInterface
     public void dispatchMethod(String methodName, String data, String callBack) {
         if (TextUtils.isEmpty(methodName)) {
             return;
         }
         String callTag = "";
-        String params="";
+        String params = "";
         if (!TextUtils.isEmpty(data)) {
             try {
                 JSONObject jsonObject = new JSONObject(data);
@@ -51,7 +54,7 @@ public class JSBridgeInterface {
         String pathName = "/handler/" + methodName;
         if (mMethodNames.contains(pathName)) {
             JSBridgeHandler handler = getHandlerByName(pathName);
-            if (handler!=null&&mContext.get()!=null){
+            if (handler != null && mContext.get() != null) {
                 String finalCallTag = callTag;
                 String finalParams = params;
                 mContext.get().runOnUiThread(new Runnable() {
@@ -62,14 +65,17 @@ public class JSBridgeInterface {
                             public void callJsBridgeResult(String result) {
                                 handCallback(callBack, result);
                             }
-                        }, finalParams,finalCallTag);
+                        }, finalParams, finalCallTag);
                     }
                 });
 
             }
+        } else {
+            handCallback("NoSuchHandle", callTag);
         }
     }
-    private void handCallback( String callBack , String response  ) {
+
+    private void handCallback(String callBack, String response) {
         if (callBack != null && mContext.get() != null && mWebView.get() != null && !TextUtils.isEmpty(
                 response
         )
@@ -81,7 +87,7 @@ public class JSBridgeInterface {
                     .append(response)
                     .append("')").toString();
             if (!TextUtils.isEmpty(callBack)) {
-                if (mContext.get()!=null){
+                if (mContext.get() != null) {
                     mContext.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -94,30 +100,49 @@ public class JSBridgeInterface {
             }
         }
     }
-    private JSBridgeHandler getHandlerByName(  String name)  {
+
+    private JSBridgeHandler getHandlerByName(String name) {
         if (mHandler.containsKey(name)) {
             return mHandler.get(name);
         }
         JSBridgeHandler handler = HandlerFactory.createHandler(name);
         if (handler != null) {
-            mHandler.put(name, handler) ;
+            mHandler.put(name, handler);
         }
         return handler;
     }
+
     @JavascriptInterface
-    public void dispatchMethod(String methodName , String data ) {
+    public void dispatchMethod(String methodName, String data) {
         dispatchMethod(methodName, data, null);
     }
 
     // 返回按钮回调
     @JavascriptInterface
     public void onH5BackPressJs() {
+        if (DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.BACK_WEBVIEW) != null) {
+            DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.BACK_WEBVIEW).implJsBridge(mContext.get(), new DFJsBridgePluginCallback() {
+                @Override
+                public void success(Object result) {
+                }
+
+                @Override
+                public void failed() {
+                }
+
+                @Override
+                public void cancel() {
+                }
+            });
+        } else {
+            mContext.get().onBackPressed();
+        }
 
     }
 
     // 分发无参数方法
     @JavascriptInterface
-    public void dispatchMethod(String methodName ) {
+    public void dispatchMethod(String methodName) {
         dispatchMethod(methodName, null);
     }
 }

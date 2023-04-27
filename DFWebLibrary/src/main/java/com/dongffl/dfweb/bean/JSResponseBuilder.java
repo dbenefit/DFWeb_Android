@@ -60,6 +60,24 @@ public class JSResponseBuilder {
                 jsonObject.put("code", response.getCode());
                 return jsonObject.toString();
             }
+            if (response.getData() instanceof TakePhotoResponse) {
+                TakePhotoResponse scanResultBean = (TakePhotoResponse) response.getData();
+                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("callbackTag", response.getCallbackTag());
+                jsonObject.put("msg", response.getMsg());
+                jsonObject.put("data", scanResultBean.url);
+                jsonObject.put("code", response.getCode());
+                return jsonObject.toString();
+            }
+            if (response.getData() instanceof ChoosePicResponse) {
+                ChoosePicResponse choosePicResponse = (ChoosePicResponse) response.getData();
+                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("callbackTag", response.getCallbackTag());
+                jsonObject.put("msg", response.getMsg());
+                jsonObject.put("data", choosePicResponse.urls);
+                jsonObject.put("code", response.getCode());
+                return jsonObject.toString();
+            }
 
         } catch (Exception e) {
 

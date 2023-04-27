@@ -1,41 +1,39 @@
 package com.dongffl.dfweb.handlers;
 
 
-import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
 
+import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
+import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 import com.dffl.dfbaselibrary.plugin.DFPluginStyle;
+import com.dongffl.dfweb.bean.ChoosePicResponse;
 import com.dongffl.dfweb.bean.JSResponseBuilder;
 import com.dongffl.dfweb.bean.JSResponseCode;
 import com.dongffl.dfweb.bean.busicess.ScanResultBean;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
-import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 
-public class ScanHandler implements JSBridgeHandler {
+public class ChoosePicHandler implements JSBridgeHandler {
 
     @Override
     public void handle(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
-        if (DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.SCAN) != null) {
-            JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
-            DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.SCAN).implJsBridge(activity
+        JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
+        if (DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.CHOOSE_PICTURE) != null) {
+            DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.CHOOSE_PICTURE).implJsBridge(activity
                     , new DFJsBridgePluginCallback() {
                         @Override
                         public void success(Object result) {
-                            if (result instanceof String){
+                            if (result instanceof ChoosePicResponse) {
                                 jsResponseBuilder
                                         .setCode(JSResponseCode.SUCCESS.getCode())
-                                        .setResponse(new ScanResultBean((String) result))
+                                        .setResponse((ChoosePicResponse) result)
                                         .setMessage("success");
                                 callback.callJsBridgeResult(jsResponseBuilder.buildResponse());
-                            }else {
+                            } else {
                                 jsResponseBuilder
                                         .setCode(JSResponseCode.FAILED.getCode())
                                         .setResponse(new ScanResultBean("failed"))
                                         .setMessage("failed");
                                 callback.callJsBridgeResult(jsResponseBuilder.buildResponse());
                             }
-
                         }
 
                         @Override
@@ -50,14 +48,12 @@ public class ScanHandler implements JSBridgeHandler {
                         @Override
                         public void cancel() {
                             jsResponseBuilder
-                                    .setCode(JSResponseCode.FAILED.getCode())
+                                    .setCode(JSResponseCode.CANCEL.getCode())
                                     .setResponse(new ScanResultBean("cancel"))
                                     .setMessage("cancel");
                             callback.callJsBridgeResult(jsResponseBuilder.buildResponse());
                         }
                     });
-        }else {
-            Toast.makeText(activity, "未注册扫码插件", Toast.LENGTH_SHORT).show();
         }
     }
 }

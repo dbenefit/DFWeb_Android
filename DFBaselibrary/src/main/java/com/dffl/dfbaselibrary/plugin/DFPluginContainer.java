@@ -17,26 +17,21 @@ public class DFPluginContainer {
         private static final DFPluginContainer instance = new DFPluginContainer();
     }
 
-    private HashMap<String, DFJSBridgePlugin> mSelfPluginMap = new HashMap<>();
+    private HashMap<Enum, DFJSBridgePlugin> mDFPluginMap = new HashMap<>();
 
-    public DFJSBridgePlugin getLocationPlugin() {
-        if (mSelfPluginMap.containsKey(JSConfigs.SELF_PLUGIN_LOCATION)) {
-            return mSelfPluginMap.get(JSConfigs.SELF_PLUGIN_LOCATION);
+    public void setDFPlugin(DFPluginStyle style, DFJSBridgePlugin dfPlugin)  {
+        if (dfPlugin==null){
+             return;
+        }
+        mDFPluginMap.put(style, dfPlugin);
+    }
+
+    public DFJSBridgePlugin getDFPlugin(DFPluginStyle style) {
+        if (mDFPluginMap.containsKey(style)) {
+            return mDFPluginMap.get(style);
         }
         return null;
     }
-    public void setScanPlugin(DFJSBridgePlugin scanPlugin){
-        mSelfPluginMap.remove(JSConfigs.SELF_PLUGIN_SCANNER);
-        mSelfPluginMap.put(JSConfigs.SELF_PLUGIN_SCANNER,scanPlugin);
-    }
-    public void setLocationPlugin(DFJSBridgePlugin scanPlugin){
-        mSelfPluginMap.remove(JSConfigs.SELF_PLUGIN_LOCATION);
-        mSelfPluginMap.put(JSConfigs.SELF_PLUGIN_LOCATION,scanPlugin);
-    }
-    public DFJSBridgePlugin getScanPlugin() {
-        if (mSelfPluginMap.containsKey(JSConfigs.SELF_PLUGIN_SCANNER)) {
-            return mSelfPluginMap.get(JSConfigs.SELF_PLUGIN_SCANNER);
-        }
-        return null;
-    }
+
+
 }

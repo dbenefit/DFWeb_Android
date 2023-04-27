@@ -61,6 +61,7 @@ dependencies {
 //    implementation 'com.github.dbenefit.DFWeb_Android:DFScanLib:v0.10.0'
 
     implementation project(':DFScanLib')
+    implementation project(':DFChoosePictureLibrary')
     implementation 'com.google.android.material:material:1.4.+'
     implementation 'com.google.zxing:core:3.5.0'
     implementation 'com.qcloud.cos:avif:1.1.0'

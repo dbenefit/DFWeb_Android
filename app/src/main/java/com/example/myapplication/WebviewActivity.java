@@ -23,7 +23,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dffl.dfbaselibrary.plugin.DFPluginStyle;
 import com.dffl.dfscanlib.handler.DFScanPlugin;
+import com.dfweb.choosepicture.ChoosePicPlugin;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
@@ -149,7 +151,7 @@ public class WebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-        DFPluginContainer.getSingleton().setScanPlugin(new DFJSBridgePlugin() {
+        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.SCAN,new DFJSBridgePlugin() {
             @Override
             public void implJsBridge(FragmentActivity activity, DFJsBridgePluginCallback call) {
                 new Handler().postDelayed(new Runnable() {
@@ -166,7 +168,9 @@ public class WebviewActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-        DFPluginContainer.getSingleton().setScanPlugin(new DFScanPlugin());
+        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.SCAN,new DFScanPlugin());
+        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.CHOOSE_PICTURE,new ChoosePicPlugin());
+
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
         webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-");
         webView.addJavascriptInterface(jsBridge, "android");
