@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.camera:camera-lifecycle:1.1.0'
     implementation 'androidx.camera:camera-view:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation project(':DFBaselibrary')
+    implementation 'com.google.code.gson:gson:2.8.6'
+    api 'com.github.dbenefit.DFWeb_Android:DFWebLibrary:v0.10.0'
 
 }
