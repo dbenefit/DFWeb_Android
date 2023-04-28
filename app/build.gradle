@@ -64,9 +64,7 @@ dependencies {
     implementation project(':DFChoosePictureLibrary')
     implementation 'com.google.android.material:material:1.4.+'
     implementation 'com.google.zxing:core:3.5.0'
-    implementation 'com.qcloud.cos:avif:1.1.0'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
 
 }
 

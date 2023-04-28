@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 
 public class TestActivity extends AppCompatActivity {
     EditText editText, editUA;
@@ -35,8 +34,6 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Glide.with(this).load("https://dhfs-test-cpc.wanyol.com/2021/12/31/bc3f21e101db91fc4de53dcb18f034f1.jpg?x-oss-process=image/resize,m_fill,h_2340,w_1080/quality,Q_60/format,avif").into((ImageView) findViewById(R.id.image));
-        Glide.with(this).load("https://oss-scm-goods-prd.dongfangfuli.com/merchantSpuDocument/picture/8dbd8fec0bb14f50aaced83ea5bceb69.avif").into((ImageView) findViewById(R.id.image1));
         editText = findViewById(R.id.edit_url);
         tvOpenFragmentWebview = findViewById(R.id.tv_openFragment);
         editUA = findViewById(R.id.edit_UA);
