@@ -45,9 +45,8 @@ dependencies {
     implementation(fileTree("libs"))
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    //    api 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v0.10.0'
-    api project(':DFBaselibrary')
-    api 'com.github.REBOOTERS:Matisse:0.5.3'
+        api 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v1.11.4'
+//    api project(':DFBaselibrary')
 
 }
 
