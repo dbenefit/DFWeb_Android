@@ -3,11 +3,11 @@ plugins {
     id 'maven-publish'
 }
 android {
-    compileSdk 33
+    compileSdk 32
     namespace 'com.dongffl.dfweb'
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 32
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         versionName "1.0.0"
