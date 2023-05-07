@@ -17,7 +17,7 @@
     <application android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.dongffl.dfweb.location.LocationActivity"
+            android:name="com.dfweb.location.LocationActivity"
             android:exported="false" />
     </application>
 

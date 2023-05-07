@@ -7,13 +7,10 @@ import android.webkit.WebView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.JSConfigs;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
-import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
-import com.dffl.dfbaselibrary.plugin.DFPluginStyle;
-import com.dongffl.dfweb.config.HandlerPathCollect;
-import com.dongffl.dfweb.handlers.HandlerFactory;
-import com.dongffl.dfweb.handlers.JSBridgeHandler;
-import com.dongffl.dfweb.handlers.JSHandlerCallback;
+import com.dffl.dfbaselibrary.config.HandlerPathCollect;
+import com.dffl.dfbaselibrary.handlers.HandlerFactory;
+import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
 
 import org.json.JSONObject;
 
@@ -60,7 +57,7 @@ public class JSBridgeInterface {
                 mContext.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handler.handle(mContext.get(), new JSHandlerCallback() {
+                        handler.handleJsResponse(mContext.get(), new JSHandlerCallback() {
                             @Override
                             public void callJsBridgeResult(String result) {
                                 handCallback(callBack, result);
@@ -120,23 +117,7 @@ public class JSBridgeInterface {
     // 返回按钮回调
     @JavascriptInterface
     public void onH5BackPressJs() {
-        if (DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.BACK_WEBVIEW) != null) {
-            DFPluginContainer.getSingleton().getDFPlugin(DFPluginStyle.BACK_WEBVIEW).implJsBridge(mContext.get(), new DFJsBridgePluginCallback() {
-                @Override
-                public void success(Object result) {
-                }
 
-                @Override
-                public void failed() {
-                }
-
-                @Override
-                public void cancel() {
-                }
-            });
-        } else {
-            mContext.get().onBackPressed();
-        }
 
     }
 

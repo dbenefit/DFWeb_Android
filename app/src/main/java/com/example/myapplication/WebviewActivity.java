@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
@@ -21,18 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dfbaselibrary.plugin.DFPluginStyle;
-import com.dffl.dfscanlib.handler.DFScanPlugin;
-import com.dfweb.choosepicture.ChoosePicPlugin;
+import com.dffl.dfbaselibrary.plugin.DFHandlerContainer;
+import com.dffl.dfbaselibrary.plugin.DFHandlerStyle;
+import com.dffl.dfscanlib.handler.ScanHandler;
+import com.dfweb.location.DFLocationHandler;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.OnChromeClientCallBack;
 import com.dongffl.dfweb.client.DFWebviewChromeClient;
 import com.dongffl.dfweb.client.DFWebviewClient;
-import com.dffl.dfbaselibrary.plugin.DFJSBridgePlugin;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgePluginCallback;
-import com.dffl.dfbaselibrary.plugin.DFPluginContainer;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 public class WebviewActivity extends AppCompatActivity {
@@ -151,25 +147,14 @@ public class WebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.SCAN,new DFJSBridgePlugin() {
-            @Override
-            public void implJsBridge(FragmentActivity activity, DFJsBridgePluginCallback call) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        if (success) {
-                            call.success("aaaaaa");
-//                        } else if (cancel) {
-//                            call.cancel();
-//                        } else {
-//                            call.failed();
-//                        }
-                    }
-                }, 1000);
-            }
-        });
-        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.SCAN,new DFScanPlugin());
-        DFPluginContainer.getSingleton().setDFPlugin(DFPluginStyle.CHOOSE_PICTURE,new ChoosePicPlugin());
+        DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.SCAN,new ScanHandler());
+        DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.LOCATION,new DFLocationHandler());
+//        DFHandlerContainer.getSingleton().setDFHandler(DFPluginStyle.SCAN, new JSBridgeHandler() {
+//            @Override
+//            public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {
+//
+//            }
+//        });
 
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
         webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-");
