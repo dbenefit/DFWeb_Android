@@ -4,8 +4,8 @@ import android.content.pm.ActivityInfo;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgeCallback;
+import com.dffl.dfbaselibrary.handlers.DFJSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.DFJsBridgeCallback;
 import com.dfweb.choosepicture.matisse.MatisseStartup;
 import com.dfweb.choosepicture.matisse.callback.PathResultCallBack;
 import com.zhihu.matisse.MimeType;
@@ -14,7 +14,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.List;
 
-public class ChoosePicHandler extends JSBridgeHandler {
+public class ChoosePicHandler extends DFJSBridgeHandler {
     @Override
     public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {
         {

@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.JSConfigs;
 import com.dffl.dfbaselibrary.config.HandlerPathCollect;
-import com.dffl.dfbaselibrary.handlers.HandlerFactory;
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
+import com.dffl.dfbaselibrary.handlers.DFHandlerFactory;
+import com.dffl.dfbaselibrary.handlers.DFJSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.DFJSHandlerCallback;
 
 import org.json.JSONObject;
 
@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class JSBridgeInterface {
 
     ArrayList<String> mMethodNames = new ArrayList<>();
-    HashMap<String, JSBridgeHandler> mHandler = new HashMap<>();
+    HashMap<String, DFJSBridgeHandler> mHandler = new HashMap<>();
     WeakReference<WebView> mWebView;
     WeakReference<FragmentActivity> mContext;
 
@@ -50,14 +50,14 @@ public class JSBridgeInterface {
         }
         String pathName = "/handler/" + methodName;
         if (mMethodNames.contains(pathName)) {
-            JSBridgeHandler handler = getHandlerByName(pathName);
+            DFJSBridgeHandler handler = getHandlerByName(pathName);
             if (handler != null && mContext.get() != null) {
                 String finalCallTag = callTag;
                 String finalParams = params;
                 mContext.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handler.handleJsResponse(mContext.get(), new JSHandlerCallback() {
+                        handler.handleJsResponse(mContext.get(), new DFJSHandlerCallback() {
                             @Override
                             public void callJsBridgeResult(String result) {
                                 handCallback(callBack, result);
@@ -98,11 +98,11 @@ public class JSBridgeInterface {
         }
     }
 
-    private JSBridgeHandler getHandlerByName(String name) {
+    private DFJSBridgeHandler getHandlerByName(String name) {
         if (mHandler.containsKey(name)) {
             return mHandler.get(name);
         }
-        JSBridgeHandler handler = HandlerFactory.createHandler(name);
+        DFJSBridgeHandler handler = DFHandlerFactory.createHandler(name);
         if (handler != null) {
             mHandler.put(name, handler);
         }

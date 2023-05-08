@@ -4,13 +4,12 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.bean.JSResponseBuilder;
 import com.dffl.dfbaselibrary.bean.JSResponseCode;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgeCallback;
 
-public abstract class JSBridgeHandler {
+public abstract class DFJSBridgeHandler {
 
     public abstract void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback);
 
-    public void handleJsResponse(FragmentActivity activity, JSHandlerCallback callback, String param, String callTag) {
+    public void handleJsResponse(FragmentActivity activity, DFJSHandlerCallback callback, String param, String callTag) {
         handle(activity, param, new DFJsBridgeCallback() {
             @Override
             public void success(Object result) {
@@ -44,7 +43,6 @@ public abstract class JSBridgeHandler {
         JSResponseBuilder jsResponseBuilder = new JSResponseBuilder().setCallbackTag(callTag);
         jsResponseBuilder
                 .setCode(JSResponseCode.SUCCESS.getCode())
-                .setResponse(result)
                 .setResponse(result)
                 .setMessage("success");
         return jsResponseBuilder.buildResponse();

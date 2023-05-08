@@ -21,14 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dffl.dfbaselibrary.plugin.DFHandlerContainer;
-import com.dffl.dfbaselibrary.plugin.DFHandlerStyle;
+import com.dffl.dfbaselibrary.handlers.DFHandlerContainer;
+import com.dffl.dfbaselibrary.handlers.DFHandlerStyle;
 import com.dffl.dfscanlib.handler.ScanHandler;
 import com.dfweb.location.DFLocationHandler;
 import com.dongffl.dfweb.FileType;
-import com.dongffl.dfweb.OnChromeClientCallBack;
-import com.dongffl.dfweb.client.DFWebviewChromeClient;
-import com.dongffl.dfweb.client.DFWebviewClient;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
 
 public class WebviewActivity extends AppCompatActivity {
@@ -86,28 +83,28 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void initWebviewClient() {
-        DFWebviewChromeClient dfWebviewChromeClient = new DFWebviewChromeClient();
-        register(dfWebviewChromeClient);
-        webView.setWebViewClient(new DFWebviewClient());
+//        DFWebviewChromeClient dfWebviewChromeClient = new DFWebviewChromeClient();
+//        register(dfWebviewChromeClient);
+//        webView.setWebViewClient(new DFWebviewClient());
     }
 
-    private void register(DFWebviewChromeClient dfWebviewChromeClient) {
-        dfWebviewChromeClient.setOnFileChooseCallBack(new OnChromeClientCallBack() {
-
-            @Override
-            public void onSetTitle(String title) {
-                setTitle(title);
-            }
-
-            @Override
-            public void onShowFileChooser(FileType fileType, ValueCallback<Uri[]> filePathCallback) {
-                mFileType = fileType;
-                mFilePathCallback = filePathCallback;
-                checkPermissions();
-            }
-        });
-        webView.setWebChromeClient(dfWebviewChromeClient);
-    }
+//    private void register(DFWebviewChromeClient dfWebviewChromeClient) {
+//        dfWebviewChromeClient.setOnFileChooseCallBack(new OnChromeClientCallBack() {
+//
+//            @Override
+//            public void onSetTitle(String title) {
+//                setTitle(title);
+//            }
+//
+//            @Override
+//            public void onShowFileChooser(FileType fileType, ValueCallback<Uri[]> filePathCallback) {
+//                mFileType = fileType;
+//                mFilePathCallback = filePathCallback;
+//                checkPermissions();
+//            }
+//        });
+//        webView.setWebChromeClient(dfWebviewChromeClient);
+//    }
 
     public void setTitle(String title) {
         if (tvTitle != null) {

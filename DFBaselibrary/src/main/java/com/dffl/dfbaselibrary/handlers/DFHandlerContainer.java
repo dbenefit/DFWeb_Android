@@ -1,7 +1,5 @@
-package com.dffl.dfbaselibrary.plugin;
+package com.dffl.dfbaselibrary.handlers;
 
-
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
 
 import java.util.HashMap;
 
@@ -17,16 +15,16 @@ public class DFHandlerContainer {
         private static final DFHandlerContainer instance = new DFHandlerContainer();
     }
 
-    private HashMap<Enum, JSBridgeHandler> mDFPluginMap = new HashMap<>();
+    private HashMap<Enum, DFJSBridgeHandler> mDFPluginMap = new HashMap<>();
 
-    public void setDFHandler(DFHandlerStyle style, JSBridgeHandler dfHandler) {
+    public void setDFHandler(DFHandlerStyle style, DFJSBridgeHandler dfHandler) {
         if (dfHandler == null) {
             return;
         }
         mDFPluginMap.put(style, dfHandler);
     }
 
-    public JSBridgeHandler getDFHandler(DFHandlerStyle style) {
+    public DFJSBridgeHandler getDFHandler(DFHandlerStyle style) {
         if (mDFPluginMap.containsKey(style)) {
             return mDFPluginMap.get(style);
         }

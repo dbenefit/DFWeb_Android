@@ -1,5 +1,5 @@
 package com.dffl.dfbaselibrary.handlers;
 
-public interface JSHandlerCallback {
+public interface DFJSHandlerCallback {
     public void callJsBridgeResult(String result);
 }

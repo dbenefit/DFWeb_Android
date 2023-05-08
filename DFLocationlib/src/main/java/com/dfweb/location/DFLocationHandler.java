@@ -3,10 +3,10 @@ package com.dfweb.location;
 import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.bean.GPSResponseBean;
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgeCallback;
+import com.dffl.dfbaselibrary.handlers.DFJSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.DFJsBridgeCallback;
 
-public class DFLocationHandler extends JSBridgeHandler {
+public class DFLocationHandler extends DFJSBridgeHandler {
     @Override
     public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {
         LocationUtil.getInstance().startLocationCheck(activity, new LocationCallback() {

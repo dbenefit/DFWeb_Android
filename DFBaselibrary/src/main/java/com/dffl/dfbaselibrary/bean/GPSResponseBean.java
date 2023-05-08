@@ -40,60 +40,12 @@ public class GPSResponseBean {
         this.longitude = longitude;
     }
 
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCityCode() {
-        return cityCode;
-    }
-
-    public void setCityCode(String cityCode) {
-        this.cityCode = cityCode;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getPoiName() {
-        return poiName;
-    }
-
-    public void setPoiName(String poiName) {
-        this.poiName = poiName;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
     }
 
     public int getErrorCode() {
@@ -104,9 +56,6 @@ public class GPSResponseBean {
         this.errorCode = errorCode;
     }
 
-    public String getErrorInfo() {
-        return errorInfo;
-    }
 
     public void setErrorInfo(String errorInfo) {
         this.errorInfo = errorInfo;

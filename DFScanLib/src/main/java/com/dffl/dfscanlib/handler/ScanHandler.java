@@ -4,13 +4,12 @@ package com.dffl.dfscanlib.handler;
 import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.bean.busicess.ScanResultBean;
-import com.dffl.dfbaselibrary.handlers.JSBridgeHandler;
-import com.dffl.dfbaselibrary.handlers.JSHandlerCallback;
-import com.dffl.dfbaselibrary.plugin.DFJsBridgeCallback;
+import com.dffl.dfbaselibrary.handlers.DFJSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.DFJsBridgeCallback;
 import com.dffl.dfscanlib.CaptureStartup;
 import com.dffl.dfscanlib.callback.ResultCallBack;
 
-public class ScanHandler extends JSBridgeHandler {
+public class ScanHandler extends DFJSBridgeHandler {
 
     @Override
     public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {

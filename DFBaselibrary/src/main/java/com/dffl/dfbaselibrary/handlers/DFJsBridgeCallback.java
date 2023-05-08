@@ -1,4 +1,4 @@
-package com.dffl.dfbaselibrary.plugin;
+package com.dffl.dfbaselibrary.handlers;
 
 public interface DFJsBridgeCallback {
     public void success(Object result);
