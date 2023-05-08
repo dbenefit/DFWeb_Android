@@ -9,7 +9,7 @@ import com.dffl.dfbaselibrary.handlers.DFJsBridgeCallback;
 import com.dffl.dfscanlib.CaptureStartup;
 import com.dffl.dfscanlib.callback.ResultCallBack;
 
-public class ScanHandler extends DFJSBridgeHandler {
+public class DFScanHandler extends DFJSBridgeHandler {
 
     @Override
     public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {

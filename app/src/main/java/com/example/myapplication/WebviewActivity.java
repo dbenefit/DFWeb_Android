@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
@@ -20,10 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.dffl.dfbaselibrary.handlers.DFHandlerContainer;
 import com.dffl.dfbaselibrary.handlers.DFHandlerStyle;
-import com.dffl.dfscanlib.handler.ScanHandler;
+import com.dffl.dfbaselibrary.handlers.DFJSBridgeHandler;
+import com.dffl.dfbaselibrary.handlers.DFJsBridgeCallback;
+import com.dffl.dfscanlib.handler.DFScanHandler;
 import com.dfweb.location.DFLocationHandler;
 import com.dongffl.dfweb.FileType;
 import com.dongffl.dfweb.webivew.jsbridge.JSBridgeInterface;
@@ -144,14 +148,19 @@ public class WebviewActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setTextZoom(100);
-        DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.SCAN,new ScanHandler());
+        DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.SCAN,new DFScanHandler());
         DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.LOCATION,new DFLocationHandler());
-//        DFHandlerContainer.getSingleton().setDFHandler(DFPluginStyle.SCAN, new JSBridgeHandler() {
-//            @Override
-//            public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {
-//
-//            }
-//        });
+        DFHandlerContainer.getSingleton().setDFHandler(DFHandlerStyle.SCAN, new DFJSBridgeHandler() {
+            @Override
+            public void handle(FragmentActivity activity, String param, DFJsBridgeCallback dfJsBridgeCallback) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dfJsBridgeCallback.success("");
+                    }
+                }, 1000);
+            }
+        });
 
         JSBridgeInterface jsBridge = new JSBridgeInterface(this, webView);
         webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + "-BFD-APP-");

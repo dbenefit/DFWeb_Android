@@ -45,9 +45,10 @@ dependencies {
     implementation(fileTree("libs"))
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
-//        api 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v1.11.4'
-    api project(':DFBaselibrary')
-    api project(':DFLocationlib')
+    api 'com.github.dbenefit.DFWeb_Android:DFBaselibrary:v0.0.1'
+    api 'com.github.dbenefit.DFWeb_Android:DFLocationlib:v0.0.1'
+//    api project(':DFBaselibrary')
+//    api project(':DFLocationlib')
 
 }
 
